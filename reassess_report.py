@@ -4,6 +4,7 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
+import sys
 from types import SimpleNamespace
 
 import audit
@@ -54,6 +55,10 @@ def reassess(source, destination):
 
 
 def main():
+    # Match the diagnostic CLI when Windows redirects streams using a legacy encoding.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8', errors='replace')
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source',type=Path)
     parser.add_argument('--out',type=Path,required=True)

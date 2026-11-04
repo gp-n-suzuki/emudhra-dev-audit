@@ -10,9 +10,8 @@ from distribution_version import VERSION, DISPLAY_VERSION, TAG
 
 def main():
     rules={
-        'README.md':[(r'(?m)^# eMudhra 開発環境診断 [\d.]+$', '# eMudhra 開発環境診断 '+DISPLAY_VERSION),
-                     (r'内部版は[\d.]+です。','内部版は'+VERSION+'です。')],
-        'README-ja.md':[(r'(?m)^# eMudhra 開発環境診断 [\d.]+$', '# eMudhra 開発環境診断 '+DISPLAY_VERSION)],
+        'README.md':[(r'(?m)^# eMudhra 開発環境診断 [\d.]+$', '# eMudhra 開発環境診断 '+DISPLAY_VERSION)],
+        'README-ja.md':[(r'(?m)^# eMudhra 開発環境診断 [\d.]+(?= —|$)', '# eMudhra 開発環境診断 '+DISPLAY_VERSION)],
         'START-HERE-ja.md':[(r'(?m)^# eMudhra 開発環境診断 [\d.]+ —', '# eMudhra 開発環境診断 '+DISPLAY_VERSION+' —')],
         'ACTION-PRESENTATION-ja.md':[(r'(?m)^# [\d.]+ — 行動', '# '+DISPLAY_VERSION+' — 行動')],
         'START-HERE.html':[(r'<span>[\d.]+</span></footer>','<span>'+DISPLAY_VERSION+'</span></footer>')],
