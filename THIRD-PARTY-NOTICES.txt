@@ -1,0 +1,18 @@
+Bundled runtime: CPython 3.13.18, python-build-standalone release 20261026.
+Publisher: Astral / python-build-standalone contributors.
+Source: https://github.com/astral-sh/python-build-standalone/releases/tag/20261026
+
+app/RUNTIME.json identifies the exact upstream archive, SHA-256 and target platform.
+The complete install_only_stripped runtime is redistributed without modifying its
+Python libraries, pip installation, bundled wheels, or native libraries.
+
+Original runtime notices remain at app/runtime/LICENSE.txt (Windows) or
+app/runtime/lib/python3.13/LICENSE.txt (macOS/Linux), and under the installed
+packages' dist-info/licenses directories. Additional upstream dependency license
+texts are included in docs/licenses/python-build-standalone. This is the upstream
+license collection; some optional dependencies are not present on every platform.
+Its source and archive hash are recorded in that directory's SOURCE.json.
+
+No license for the diagnostic tool itself has been selected. The licenses above
+apply to the bundled third-party components. No third-party endorsement is implied. Neither this wrapper nor its diagnostic results are an official product
+of Microsoft, Apple, Mozilla, Google, Python, Astral, or eMudhra.

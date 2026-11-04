@@ -1,0 +1,32 @@
+# Local diagnostic reports and verification artifacts
+/.artifacts/
+/report/
+/report-*/
+/inventory/
+/emudhra-report-*/
+/releases/
+emudhra-browser-*.json
+
+# OS metadata and Python runtime files
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local configuration; reviewed examples may be shared
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Private keys and local certificate stores
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+/結果/
+/診断結果/

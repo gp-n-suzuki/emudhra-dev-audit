@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ソース版の使い方 — eMudhra 開発環境診断</title><link rel="stylesheet" href="ui.css"></head>
+<body><main class="start-page">
+<nav class="topbar"><span>eMudhra 開発環境診断</span></nav>
+<header class="page-heading"><h1>ソース版を実行する</h1>
+<p>このフォルダーには同梱Pythonや「診断を開始」はありません。Python 3.8以上を用意し、このフォルダーでターミナルを開いて実行してください。配布版を受け取った方は、展開先の <code>docs/使い方.html</code> をご覧ください。</p></header>
+<section class="panel"><h2>1. コマンドを実行する</h2>
+<h3>Windows PowerShell</h3><p>Python Launcherを導入している場合の例です。<code>py</code> がない場合の指定方法は<a href="README-ja.md">詳細ガイド</a>にあります。</p>
+<pre>py -3 -B audit.py --out ./report</pre>
+<h3>macOS / Linux</h3><pre>python3 -B audit.py --out ./report</pre>
+<p>外部通信を省く場合は <code>--offline</code> を追加します。同じ <code>--out</code> を再利用すると結果を上書きします。<code>--out</code> を省略した場合は、現在のフォルダーの <code>emudhra-report-日時/</code> へ保存します。</p>
+<details><summary>macOS / Linuxの追加オプションを選ぶ</summary>
+<p>次のコマンドは <code>run-checks.sh</code> を使います。Python 3.8以上をPATHで利用できる環境が必要です。Windowsでは上記のPowerShellコマンドを使ってください。</p>
+<form id="setup">
+<label class="field"><span>OS（macOS / Linux）</span><select id="os"><option value="mac">macOS</option><option value="linux">Linux</option></select></label>
+<label class="check-field"><input id="include-project" type="checkbox">指定プロジェクトも検査する</label>
+<label class="field" id="project-field" hidden><span>プロジェクトのフルパス</span><input id="project" type="text" autocomplete="off" spellcheck="false"></label>
+<label class="check-field"><input id="offline" type="checkbox">外部へ接続せず、版と設定を調べる</label>
+<p>このソースフォルダーを現在のディレクトリにして実行します。</p>
+<ol class="run-steps" hidden><li id="terminal-step"></li></ol>
+<label for="command">実行コマンド</label><textarea id="command" class="command" readonly spellcheck="false"></textarea>
+<div class="button-row"><button type="button" class="primary" id="copy" disabled>コマンドをコピー</button><p id="command-status" role="status" aria-live="polite"></p></div>
+</form></details>
+<noscript><p>オプション作成にはJavaScriptが必要です。上記のコマンドはそのまま使えます。</p></noscript>
+</section>
+<section class="panel"><h2>2. 結果を開く</h2>
+<p>通常は数分程度で終了し、保存先が表示されます。上記の例では <code>report/report.html</code> を手動でブラウザで開いてください。</p>
+<p>ツール → 導入先の順に開き、「次の行動」「版の判定」「通信の検証」「不足情報と次の確認」を読みます。最新版でも通信が未検査なら追加確認が残ります。</p>
+<a class="button" href="sample-report.html">表示サンプルを開く（実際の診断結果ではありません）</a>
+</section>
+<section class="panel"><h2>実行前の注意</h2>
+<p>通常は導入済みの対象コマンドを実行し、外部へHTTPS接続します。組織のネットワーク利用ルールを確認してください。管理者権限は不要です。診断はレポートと一時ファイルを作りますが、対象ソフトの更新・設定変更・証明書ストア変更は行いません。</p>
+<p>判定基準は2026-11-02時点の固定データです。結果は検査した導入先・接続先に限り、PC全体の安全性を保証しません。共有前にレポート中のローカルパスなどを確認してください。</p>
+<p><a href="VALIDATION-ja.md">OS・CPU別の検証範囲</a> / <a href="ACTION-PRESENTATION-ja.md">結果の読み方</a></p>
+</section>
+<footer><a href="START-HERE-ja.md">かんたん操作ガイド</a><a href="README-ja.md">詳細な使い方・困ったとき</a><span>1.0</span></footer>
+</main><script src="quickstart.js"></script></body></html>

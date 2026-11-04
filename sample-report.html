@@ -1,0 +1,1124 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>架空の表示例 — eMudhra 開発環境診断</title><style>:root {
+  color-scheme:light;
+  --ink:#183237;
+  --muted:#526a70;
+  --line:#d5e1df;
+  --accent:#166a5e;
+  --paper:#fff;
+  --soft:#f1f5f3;
+  --red:#a33332;
+}
+* {
+  box-sizing:border-box;
+}
+body {
+  margin:0;
+  background:var(--soft);
+  color:var(--ink);
+  font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",sans-serif;
+}
+main {
+  max-width:1040px;
+  padding:0 28px 48px;
+  margin:auto;
+}
+.start-page,.browser-page {
+  max-width:880px;
+}
+a {
+  color:var(--accent);
+  text-underline-offset:4px;
+}
+h1,h2,h3,h4,p {
+  margin:0 0 16px;
+}
+h1 {
+  font-size:clamp(26px,3.4vw,36px);
+  line-height:1.45;
+  letter-spacing:-.025em;
+  text-wrap:balance;
+}
+h2 {
+  font-size:22px;
+  line-height:1.5;
+}
+h3 {
+  font-size:19px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+h4 {
+  font-size:17px;
+  line-height:1.6;
+}
+p:last-child {
+  margin-bottom:0;
+}
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:26px 0;
+  font-size:14px;
+}
+.topbar a {
+  text-decoration:none;
+}
+.page-heading {
+  margin:24px 0 32px;
+}
+.hero,.panel {
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:28px;
+  margin-bottom:20px;
+}
+.hero {
+  padding:32px;
+  border-top:4px solid var(--accent);
+}
+.hero.action {
+  border-top-color:var(--red);
+}
+.hero.review {
+  border-top-color:#aa7729;
+}
+.context {
+  margin:24px 0 0;
+}
+.data-list {
+  display:grid;
+  grid-template-columns:max-content minmax(0,1fr);
+  gap:8px 20px;
+  font-size:14px;
+}
+.data-list dt {
+  font-weight:600;
+}
+.data-list dd {
+  margin:0;
+  overflow-wrap:anywhere;
+}
+.section-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin:32px 0 20px;
+}
+.section-heading h2 {
+  margin:0;
+}
+.filters {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0 0 20px;
+}
+button,.button {
+  font:inherit;
+  font-size:14px;
+  border:1px solid #9eb7b1;
+  background:white;
+  color:var(--ink);
+  padding:10px 16px;
+  border-radius:7px;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  line-height:1.5;
+}
+button:hover,.button:hover {
+  background:#e9f1ee;
+}
+button:disabled {
+  cursor:default;
+  opacity:.5;
+}
+button[aria-pressed=true],.button.primary,button.primary {
+  background:var(--accent);
+  color:white;
+  border-color:var(--accent);
+}
+button span {
+  margin-left:8px;
+  font-variant-numeric:tabular-nums;
+}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,textarea:focus-visible {
+  outline:3px solid #228d80;
+  outline-offset:3px;
+}
+.search-row {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:24px;
+}
+.search {
+  display:block;
+  font-size:14px;
+  font-weight:600;
+  max-width:380px;
+  flex:1;
+}
+.search input {
+  display:block;
+  margin-top:6px;
+}
+#result-count {
+  font-size:14px;
+  padding-bottom:10px;
+  margin:0;
+  white-space:nowrap;
+}
+input,select,textarea {
+  font:inherit;
+  color:var(--ink);
+  background:white;
+  border:1px solid #9eb7b1;
+  border-radius:7px;
+  padding:10px 12px;
+  max-width:100%;
+  width:100%;
+}
+input[type=checkbox] {
+  width:auto;
+  accent-color:var(--accent);
+  margin-right:8px;
+}
+input[aria-invalid=true] {
+  border-color:var(--red);
+}
+.record-heading {
+  display:flex;
+  gap:12px 20px;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+.record-heading h3 {
+  margin:0;
+  flex:1 1 240px;
+}
+.tag {
+  font-size:13px;
+  font-weight:600;
+  padding:5px 10px;
+  background:#edf1ef;
+  border-radius:5px;
+  white-space:normal;
+}
+.ACTION .tag,.tag.bad {
+  background:#fbeceb;
+  color:#932e2e;
+}
+.UPDATE .tag,.tag.unknown {
+  background:#fff0db;
+  color:#774c0b;
+}
+.UNKNOWN .tag,.MANUAL .tag {
+  background:#edf1ef;
+  color:#526a70;
+}
+.REJECTED .tag,.tag.good {
+  color:#126252;
+  background:#e7f3ec;
+}
+.next-action {
+  margin:20px 0 0;
+}
+.next-action h4 {
+  margin:0 0 12px;
+}
+.next-action ol {
+  padding-left:24px;
+  margin:16px 0 0;
+}
+.next-action li,.browser-status li {
+  padding:5px 0;
+  overflow-wrap:anywhere;
+}
+.next-action p {
+  overflow-wrap:anywhere;
+}
+.remedy-target {
+  display:block;
+  font-size:14px;
+  overflow-wrap:anywhere;
+}
+.version-data {
+  font-variant-numeric:tabular-nums;
+  font-size:14px;
+}
+details {
+  border-top:1px solid var(--line);
+  padding-top:14px;
+  margin-top:20px;
+}
+summary {
+  cursor:pointer;
+  color:var(--accent);
+  font-size:14px;
+  font-weight:600;
+}
+details[open]>summary {
+  margin-bottom:16px;
+}
+details p {
+  overflow-wrap:anywhere;
+}
+.scroll {
+  overflow-x:auto;
+}
+table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+th,td {
+  text-align:left;
+  vertical-align:top;
+  padding:12px;
+  border-bottom:1px solid var(--line);
+  overflow-wrap:anywhere;
+}
+th {
+  background:#f2f6f4;
+  font-weight:600;
+}
+pre,code {
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+}
+pre {
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  font-size:12px;
+  line-height:1.7;
+}
+code {
+  overflow-wrap:anywhere;
+}
+footer {
+  padding:16px 2px;
+  font-size:14px;
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+footer>span {
+  margin-left:auto;
+}
+.step-title {
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+.step-number {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--accent);
+  color:white;
+  min-width:30px;
+  height:30px;
+  font-size:14px;
+  border-radius:50%;
+}
+.field {
+  display:block;
+  margin:20px 0;
+}
+.field>span {
+  display:block;
+  font-size:14px;
+  font-weight:600;
+  margin-bottom:8px;
+}
+.check-field {
+  display:block;
+  margin:16px 0;
+}
+.run-steps {
+  padding-left:24px;
+  margin:20px 0;
+}
+.run-steps li {
+  padding:6px 0;
+}
+.command {
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  font-size:14px;
+  background:#f3f7f5;
+  min-height:96px;
+  resize:vertical;
+}
+.button-row {
+  display:flex;
+  gap:16px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+.button-row p {
+  margin:0;
+  font-size:14px;
+}
+.file-path {
+  padding:18px;
+  margin:20px 0;
+  background:var(--soft);
+  border-radius:8px;
+}
+.notice {
+  padding:16px 20px;
+  background:#fcf2df;
+  border-radius:8px;
+  font-size:14px;
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+}
+.browser-status {
+  border-left:4px solid var(--accent);
+  background:#e7f3ec;
+  padding:24px 28px;
+  margin:24px 0 32px;
+  border-radius:8px;
+}
+.browser-status h2 {
+  margin:0;
+}
+.browser-status ol {
+  padding-left:24px;
+  margin:16px 0 0;
+}
+.browser-status.action {
+  border-color:var(--red);
+  background:#fff1ef;
+}
+.browser-status.review {
+  border-color:#aa7729;
+  background:#fff7e8;
+}
+.browser-controls {
+  display:flex;
+  align-items:flex-end;
+  gap:24px;
+}
+.browser-controls .field {
+  margin:0;
+  flex:1;
+}
+.browser-controls .button {
+  flex-shrink:0;
+}
+.browser-row {
+  margin-bottom:16px;
+}
+.browser-row .record-heading {
+  margin-bottom:20px;
+}
+#browser-results>h2 {
+  margin-top:30px;
+}
+#result-actions {
+  display:block;
+}
+#result-actions p {
+  margin:16px 0;
+}
+.sr-only {
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+[hidden] {
+  display:none!important;
+}
+@media(max-width:650px) {
+  main {
+    padding:0 16px 32px;
+  }
+  .topbar {
+    font-size:13px;
+    gap:12px;
+    align-items:center;
+  }
+  .topbar .button {
+    padding:8px 10px;
+  }
+  .page-heading {
+    margin:16px 0 24px;
+  }
+  .hero,.panel {
+    padding:22px 18px;
+  }
+  .hero h1 {
+    font-size:26px;
+  }
+  .data-list {
+    grid-template-columns:1fr;
+    gap:2px;
+  }
+  .data-list dd {
+    margin-bottom:12px;
+  }
+  .record-heading {
+    align-items:flex-start;
+    flex-direction:column;
+    gap:10px;
+  }
+  .record-heading h3 {
+    flex:auto;
+  }
+  .tag {
+    font-size:13px;
+  }
+  .section-heading {
+    align-items:center;
+  }
+  h2 {
+    font-size:20px;
+  }
+  .filters button {
+    font-size:13px;
+    padding:9px 10px;
+  }
+  .search-row {
+    display:block;
+  }
+  .search {
+    max-width:none;
+  }
+  #result-count {
+    padding:10px 0 0;
+  }
+  .browser-controls {
+    display:block;
+  }
+  .browser-controls .field {
+    margin-top:16px;
+  }
+  .browser-status {
+    padding:22px 18px;
+  }
+  .notice {
+    display:block;
+  }
+  .notice a {
+    display:block;
+    margin-top:8px;
+  }
+  .scroll table {
+    min-width:580px;
+  }
+  footer {
+    gap:14px;
+  }
+  .file-path {
+    font-size:14px;
+  }
+}
+@media print {
+  body {
+    background:white;
+    font-size:12px;
+  }
+  main {
+    max-width:none;
+    padding:0;
+  }
+  .topbar a,.filters,.search-row,#empty-results,button,.button,.report-files {
+    display:none!important;
+  }
+  .tool-checks>section,.hero,.panel {
+    break-inside:avoid;
+    padding:16px;
+  }
+  h1 {
+    font-size:26px;
+  }
+  .scroll {
+    overflow:visible;
+  }
+  .scroll table {
+    min-width:0;
+  }
+  footer {
+    font-size:11px;
+  }
+}
+
+/* The overview contains only observations; evidence and actions expand per row. */
+.results-page {
+  padding-top:24px;
+}
+.report-header {
+  margin-bottom:20px;
+}
+.report-actions {
+  display:flex;
+  gap:8px;
+}
+.results-page .section-heading {
+  margin:0 0 18px;
+}
+.results-page h1 {
+  margin:0;
+  font-size:28px;
+}
+.results-page .filters {
+  margin:0;
+  gap:8px;
+}
+.results-page .filters button {
+  font-size:13px;
+  padding:9px 12px;
+}
+.results-page .search-row {
+  margin:20px 0;
+}
+.results-page .search {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  max-width:440px;
+  white-space:nowrap;
+}
+.results-page .search input {
+  margin:0;
+  min-width:0;
+}
+.results-page #result-count {
+  padding:0;
+}
+.result-group {
+  margin:24px 0 30px;
+}
+.result-group h2 {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:0 0 10px;
+  font-size:18px;
+}
+.result-group h2::before {
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--muted);
+}
+.result-group[data-result-group=action] h2::before {
+  background:var(--red);
+}
+.result-group[data-result-group=review] h2::before {
+  background:#aa7729;
+}
+.result-group[data-result-group=complete] h2::before {
+  background:var(--accent);
+}
+.result-group h2 span {
+  font-size:15px;
+  font-weight:500;
+  font-variant-numeric:tabular-nums;
+}
+.result-list {
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:10px;
+  overflow:hidden;
+}
+.result-list>article + article {
+  border-top:1px solid var(--line);
+}
+.result-record,.tool-record {
+  margin:0;
+  border:0;
+  padding:0;
+}
+.result-record>.result-row,.tool-record>.tool-row,.installation-result section>.result-row {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(160px,240px) 12px;
+  align-items:center;
+  gap:16px;
+  padding:16px 20px;
+  margin:0;
+  list-style:none;
+  color:var(--ink);
+}
+.installation-result section>.result-row {
+  grid-template-columns:minmax(0,1fr) minmax(160px,240px);
+}
+.installation-result section>.result-row::after {
+  content:none;
+}
+.result-row::-webkit-details-marker,.tool-row::-webkit-details-marker {
+  display:none;
+}
+.result-row::after,.tool-row::after {
+  content:"›";
+  font-size:22px;
+  font-weight:400;
+  text-align:center;
+}
+.result-record[open]>.result-row::after,.tool-record[open]>.tool-row::after {
+  transform:rotate(90deg);
+}
+.result-row:hover,.tool-row:hover {
+  background:#f6f9f7;
+}
+.record-name {
+  overflow-wrap:anywhere;
+  font-size:14px;
+  font-weight:500;
+}
+.result-row .tag {
+  justify-self:end;
+  text-align:right;
+  font-weight:500;
+  font-size:12px;
+}
+.record-details {
+  border-top:1px solid var(--line);
+  padding:20px;
+}
+.record-details>p {
+  font-size:14px;
+}
+.tool-record>.tool-row {
+  grid-template-columns:minmax(120px,1fr) minmax(0,2fr) 12px;
+  padding:20px;
+}
+.tool-name {
+  font-size:17px;
+  font-weight:650;
+  overflow-wrap:anywhere;
+}
+.tool-statuses {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:6px 12px;
+}
+.tool-status {
+  font-size:13px;
+  line-height:1.7;
+  text-align:right;
+  color:var(--muted);
+}
+.tool-status.action {color:var(--red)}
+.tool-status.review {color:#805415}
+.tool-status.complete {color:var(--accent)}
+.tool-checks {
+  padding:16px;
+  background:#f8faf9;
+  border-top:1px solid var(--line);
+}
+.tool-checks>h3 {
+  font-size:14px;
+  margin:0 4px 12px;
+}
+.tool-checks>h3 span {font-weight:400}
+.tool-checks>section {
+  border:1px solid var(--line);
+  border-radius:6px;
+  background:var(--paper);
+}
+.tool-checks>section + section {margin-top:8px}
+@media(max-width:650px) {
+  .results-page .search-row {
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .results-page .search {
+    flex:1;
+  }
+  .result-record>.result-row,.tool-record>.tool-row {
+    grid-template-columns:minmax(0,1fr) minmax(120px,180px) 10px;
+    padding:12px 16px;
+    gap:12px;
+  }
+  .record-details {
+    padding:16px;
+  }
+}
+@media(max-width:430px) {
+  .results-page .search-row {
+    display:block;
+  }
+  .results-page #result-count {
+    margin-top:8px;
+  }
+  .result-record>.result-row,.tool-record>.tool-row {
+    grid-template-columns:minmax(0,1fr) 12px;
+    gap:8px;
+  }
+  .result-row .tag,.tool-statuses {
+    grid-row:2;
+    grid-column:1;
+    justify-self:start;
+    text-align:left;
+  }
+  .tool-statuses {justify-content:flex-start}
+  .tool-status {text-align:left}
+  .result-row::after,.tool-row::after {
+    grid-row:1 / span 2;
+    grid-column:2;
+  }
+}
+@media print {
+  .result-group[hidden],.result-list>article[hidden] {
+    display:block!important;
+  }
+  .result-list {
+    overflow:visible;
+  }
+  .result-row::after,.tool-row::after {
+    display:none;
+  }
+  .result-group h2 {
+    break-after:avoid;
+  }
+}
+
+/* Status belongs to the observation itself, not an ancestor's verdict. */
+.results-page .tag.state-action {color:#8b2827;background:#fbe8e7}
+.results-page .tag.state-review {color:#795014;background:#fff1db}
+.results-page .tag.state-complete {color:#135f50;background:#e3f3ed}
+.results-page .tag.state-unverified,.results-page .tag.state-info,.results-page .tag.state-scope {color:#445e63;background:#edf2f1}
+.tool-heading {min-width:0}
+.tool-name,.tool-action {display:block}
+.tool-action {font-size:13px;font-weight:400;line-height:1.7;margin-top:5px;overflow-wrap:anywhere}
+.installation-result {
+  border:1px solid var(--line);
+  border-left:4px solid #a8b9b5;
+  border-radius:8px;
+  background:var(--paper);
+  overflow:hidden;
+}
+.installation-result[data-state=action] {border-left-color:var(--red)}
+.installation-result[data-state=review] {border-left-color:#aa7729}
+.installation-result[data-state=complete] {border-left-color:var(--accent)}
+.tool-checks>* + .installation-result,.tool-checks>.installation-result + section {margin-top:16px}
+.installation-result .record-name {font-weight:600}
+.installation-result section>.result-row {padding:0 0 12px;gap:12px}
+.installation-result .record-details>section + section {border-top:1px solid var(--line);padding-top:20px;margin-top:20px}
+.installation-result .record-details>section>.next-action {margin:16px 0 0}
+.inspection-data {margin-top:20px;padding-top:16px}
+.inspection-data>.evidence-record,.inspection-data>section {padding:20px 0;border-bottom:1px solid var(--line)}
+.inspection-data h4 {font-size:14px;margin-bottom:8px}
+.inspection-data h5 {font-size:13px;margin:20px 0 8px}
+.inspection-data pre {max-height:360px;overflow:auto}
+.pending-check {display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;font-size:14px;border-top:1px solid var(--line)}
+.pending-check span:first-child {overflow-wrap:anywhere}
+.component-table {min-width:540px;font-size:14px}
+.component-table th:last-child,.component-table td:last-child {text-align:right;font-variant-numeric:tabular-nums}
+.action-badge {display:inline-block;padding:3px 10px;border-radius:5px;background:#edf2f1;color:#445e63;font-size:12px;font-weight:600;line-height:1.6;text-align:left}
+.action-update,.action-configure,.action-connection_problem,.action-action_required {color:#8b2827;background:#fbe8e7}
+.action-investigate {color:#795014;background:#fff1db}
+.action-checked {color:#135f50;background:#e3f3ed}
+.axis-summary {display:grid;gap:3px;font-size:12px;font-weight:400;color:var(--muted);line-height:1.65;margin-top:8px}
+.assessment-axes {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:16px 0}
+.assessment-axis {border:1px solid var(--line);border-radius:8px;padding:16px;min-width:0;background:#f8faf9}
+.assessment-axis[data-axis=configuration] {grid-column:1/-1}
+.assessment-axis h4 {font-size:15px;margin:0 0 12px}
+.axis-finding {font-size:13px;overflow-wrap:anywhere}
+.axis-finding+.axis-finding {border-top:1px solid var(--line);margin-top:14px;padding-top:14px}
+.axis-finding strong {font-size:14px;line-height:1.6}
+.axis-finding p {margin:8px 0 0}
+.axis-version {font-variant-numeric:tabular-nums}
+.axis-scope,.evidence-links,.counting-note {font-size:12px;color:var(--muted)}
+.evidence-links a {margin-right:8px;display:inline-block}
+.action-reason {padding:16px;border-radius:8px;margin:0 0 16px;font-size:14px}
+.action-reason h4 {margin-bottom:8px;font-size:16px}
+.missing-evidence {border-top:1px solid var(--line);padding-top:16px;margin-top:20px;font-size:13px}
+.missing-evidence ul {padding-left:20px;margin:0}
+.missing-evidence li+li {margin-top:14px}
+.missing-evidence p {margin-bottom:4px}
+.result-group[data-result-group=connection_problem] h2::before,.result-group[data-result-group=action_required] h2::before,
+.result-group[data-result-group=configure] h2::before,.result-group[data-result-group=update] h2::before {background:var(--red)}
+.result-group[data-result-group=investigate] h2::before {background:#aa7729}
+.result-group[data-result-group=checked] h2::before {background:var(--accent)}
+.installation-result[data-action=connection_problem],.installation-result[data-action=action_required],
+.installation-result[data-action=configure],.installation-result[data-action=update] {border-left-color:var(--red)}
+.installation-result[data-action=investigate] {border-left-color:#aa7729}
+.installation-result[data-action=checked] {border-left-color:var(--accent)}
+.results-page .tool-record>.tool-row {grid-template-columns:minmax(0,2fr) minmax(180px,1fr) 12px}
+@media(max-width:650px) {
+  .assessment-axes {grid-template-columns:minmax(0,1fr)}
+  .results-page .tool-record>.tool-row {grid-template-columns:minmax(0,1fr) 12px}
+  .installation-result section>.result-row {grid-template-columns:minmax(0,1fr);gap:8px}
+  .installation-result section>.result-row>.tag {justify-self:start;text-align:left}
+  .pending-check {align-items:flex-start;flex-direction:column;gap:8px}
+  .tool-record>.tool-row {grid-template-columns:minmax(0,1fr) 12px}
+  .tool-statuses {grid-row:2;grid-column:1;justify-content:flex-start}
+  .tool-status {text-align:left}
+  .tool-row::after {grid-row:1 / span 2;grid-column:2}
+}
+@media print {
+  .inspection-data pre {max-height:none;overflow:visible;white-space:pre-wrap}
+  .installation-result {overflow:visible;break-inside:auto}
+  .installation-result>.result-record>.result-row {break-after:avoid}
+}
+</style></head><body><main class="results-page">
+<p class="notice"><strong>表示サンプル</strong> <a href="START-HERE.html">開始ページへ戻る</a></p><header id="current-status" class="report-header">
+<div class="section-heading"><h1>診断結果</h1><div class="report-actions"><button type="button" onclick="window.print()">印刷</button></div></div>
+<p class="report-summary">更新・設定修正などの対応が必要なツールが2件あります</p><p>対象：このPCにインストールされている開発環境</p>
+<p>必要な行動を確認し、版の判定と通信の結果を別々に確認してください。</p><p class="counting-note">主分類は1ツール1件。行動別フィルターは重複を含みます。追加確認が必要：行動別フィルター12ツール（重複を含む）＝主分類10ツール＋他の主分類に併存2ツール。分類の変化は安全性の向上を意味しません。</p>
+<p id="filter-counting">行動別フィルター（重複を含む）。下の分類見出しの件数は主分類です。</p>
+<div class="filters" aria-label="必要な行動で絞り込み" aria-describedby="filter-counting"><button type="button" data-filter="all" onclick="filterReports('all')" aria-pressed="true">すべて <span>16ツール</span></button><button type="button" data-filter="connection_problem" onclick="filterReports('connection_problem')" aria-pressed="false">問題の証明書を受け入れた・対応が必要 <span>1ツール</span></button><button type="button" data-filter="action_required" onclick="filterReports('action_required')" aria-pressed="false">検出した問題への対応が必要 <span>0ツール</span></button><button type="button" data-filter="configure" onclick="filterReports('configure')" aria-pressed="false">設定の修正が必要 <span>1ツール</span></button><button type="button" data-filter="update" onclick="filterReports('update')" aria-pressed="false">更新が必要 <span>1ツール</span></button><button type="button" data-filter="investigate" onclick="filterReports('investigate')" aria-pressed="false">追加確認が必要 <span>12ツール</span></button><button type="button" data-filter="checked" onclick="filterReports('checked')" aria-pressed="false">検査した範囲で問題なし <span>1ツール</span></button><button type="button" data-filter="not_found" onclick="filterReports('not_found')" aria-pressed="false">見つからなかった対象 <span>1ツール</span></button><button type="button" data-filter="not_applicable" onclick="filterReports('not_applicable')" aria-pressed="false">対象外 <span>1ツール</span></button><button type="button" data-filter="info" onclick="filterReports('info')" aria-pressed="false">環境情報 <span>1ツール</span></button></div>
+<details class="report-legend"><summary>判定軸・集計の読み方</summary><p>主表示は次の行動です。更新と設定修正が必要な場合は両方を表示します。問題の証明書を受け入れた実測結果は、独立した対応理由として表示します。</p>
+<p>版：本体か同梱部品か、対応基準・出典・適用範囲を表示します。部品の対策版未満は、アプリの更新先や独自修正を配布元へ確認する場合があります。</p>
+<p>通信：未実施、実行失敗、拒否確認、問題検出を区別します。通常接続の成功やローカル合成テストだけでは、eMudhraの問題の証明書を拒否したことになりません。</p>
+<p>「検査した範囲で問題なし」は記載した導入先・接続先・設定に限ります。未確認事項のある対象、未導入、環境情報、対象外をこの分類に含めません。</p></details>
+<details><summary>検査情報・主分類の内訳</summary><dl class="data-list"><dt>対象</dt><dd>このPCにインストールされている開発環境</dd><dt>結果生成日時</dt><dd>表示例・測定日時なし</dd><dt>観測日時</dt><dd>表示例・測定日時なし</dd></dl>
+<ul><li>問題の証明書を受け入れた・対応が必要: 1ツール（主分類）</li><li>検出した問題への対応が必要: 0ツール（主分類）</li><li>設定の修正が必要: 1ツール（主分類）</li><li>更新が必要: 0ツール（主分類）</li><li>追加確認が必要: 10ツール（主分類）</li><li>検査した範囲で問題なし: 1ツール（主分類）</li><li>見つからなかった対象: 1ツール（主分類）</li><li>対象外: 1ツール（主分類）</li><li>環境情報: 1ツール（主分類）</li><li>検査先の証明書を拒否できた: 2ツール（通信の根拠・重複あり）</li><li>検査用サイトのブロックを推定: 1ツール（通信の根拠・重複あり）</li></ul><p>照合基準日: 2026-11-02</p><section class="INFO" data-review="info" data-method="inventory" id="item-22"><details class="result-record"><summary class="result-row"><span class="record-name">記録23：検査対象</span><span class="tag state-info">検査情報</span></summary><div class="record-details"><details class="inspection-data"><summary>検査データ</summary><p>このPCにインストールされている開発環境</p><dl class="data-list"><dt>検査対象</dt><dd>検査対象</dd><dt>検査方法</dt><dd>自動確認（探索）</dd><dt>検査範囲</dt><dd>今回探索した配置と検出した環境の確認。</dd></dl><h5>設定・パス（JSON）</h5><pre>{}</pre></details></div></details></section></details>
+</header>
+<div class="search-row"><label class="search" for="record-search">検索<input type="search" id="record-search" aria-label="ツール・検査結果を検索" oninput="filterReports(activeFilter)"></label>
+<p id="result-count" role="status" aria-live="polite">16ツールを表示</p></div>
+<p id="empty-results" class="panel" hidden>該当するツールがありません。</p>
+<div id="records"><div class="result-group" data-result-group="connection_problem" aria-labelledby="group-connection_problem"><h2 id="group-connection_problem">問題の証明書を受け入れた・対応が必要（主分類） <span>1ツール</span></h2><div class="result-list"><article data-tool="Java" data-state="connection_problem" data-states="connection_problem" data-actions="connection_problem investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">Java</span><span class="axis-summary"><span>版：版による判定は未実施</span><span>通信：問題の証明書を受け入れた / 未実施</span></span></span><span class="tool-statuses"><span class="action-badge action-connection_problem">問題の証明書を受け入れた・対応が必要</span><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>2件</span></h3><div class="installation-result" data-action="connection_problem"><details class="result-record"><summary class="result-row"><span class="record-name">jdk · …/example/java/jdk</span><span class="tool-statuses"><span class="action-badge action-connection_problem">問題の証明書を受け入れた・対応が必要</span></span></summary><div class="record-details"><div class="action-reason action-connection_problem"><h4>問題の証明書を受け入れた・対応が必要</h4><p>Java JSSE</p><p>代表検証先へHTTPS接続が成立した例。</p><p>このJDKの配布元の対策、独自truststore、プロキシによる証明書の差し替えを確認してください。</p></div><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-0" onclick="revealRecord('item-0')">記録1</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>問題の証明書を受け入れた</strong><p>代表検証先へHTTPS接続が成立した例。</p><p class="axis-scope">対象範囲：検査したクライアントと接続先に限ります。</p><p class="evidence-links"><a href="#item-0" onclick="revealRecord('item-0')">記録1</a></p></div></section></div><div class="next-action"><h4>このJDKを対応版へ更新する</h4><ol><li>対象のJDKと配布元を確認し、その配布元のeMudhra対応版をインストールします。</li><li>JAVA_HOMEとPATHを更新後のJDKに合わせ、ターミナルとIDEを開き直します。</li><li>javax.net.ssl.trustStoreで独自の信頼ストアを指定している場合は、そちらにも配布元の対策を反映します。</li><li>同じPC・ネットワークで再診断し、この項目の結果を確認します。</li><li>更新後も検証先へ接続できる場合は、証明書の発行者を確認します。社内プロキシの証明書なら、レポートと発行者をIT担当へ伝えて経路を確認します。</li></ol></div><details class="inspection-data"><summary>検査データ・原記録</summary><section class="ACTION" data-review="action" data-method="measured" id="item-0"><h4>記録1：Java JSSE</h4><p>記録の判定：<span class="tag state-action">問題の証明書に接続できた</span></p><p>代表検証先へHTTPS接続が成立した例。</p><div class="scroll"><table><thead><tr><th>接続先</th><th>結果</th><th>観測内容</th></tr></thead><tbody><tr><td>通常サイト</td><td>接続できた</td><td>接続できた</td></tr><tr><td>emSign / CTあり</td><td>問題の証明書に接続できた</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>AAA経路 / CTあり</td><td>問題の証明書に接続できた</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>emSign / CTなし</td><td>問題の証明書に接続できた</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>AAA経路 / CTなし</td><td>問題の証明書に接続できた</td><td>この行は表示確認用の架空の観測です。</td></tr></tbody></table></div><dl class="data-list"><dt>検査対象</dt><dd>Java JSSE</dd><dt>対象の場所</dt><dd><code>/example/java/jdk</code></dd><dt>検査方法</dt><dd>実測（通信）</dd><dt>検査範囲</dt><dd>検査したクライアントと接続先に限ります。</dd></dl><h5>設定・パス（JSON）</h5><pre>{
+  &quot;java_home&quot;: &quot;/example/java/jdk&quot;,
+  &quot;tool_id&quot;: &quot;java&quot;,
+  &quot;tool_name&quot;: &quot;Java&quot;,
+  &quot;result_identity&quot;: [
+    &quot;java&quot;,
+    &quot;ホスト&quot;,
+    &quot;/example/java/jdk&quot;
+  ]
+}</pre></section></details></div></details></div><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">Java / Azulブロックリスト</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-3" onclick="revealRecord('item-3')">記録4</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>未実施</strong><p>この導入先について通信検証の保存済み証拠がありません。</p><p class="axis-scope">対象範囲：同じ導入先の通信のみ。別環境の結果を流用しません。</p><p class="evidence-links"><a href="#item-3" onclick="revealRecord('item-3')">記録4</a></p></div></section></div><div class="next-action"><h4>配布元の対応状況を確認する</h4><ol><li>配布元の対応情報と、この版への独自修正（バックポート）を確認します。</li><li>対応版が提供されている場合は、導入方法に合わせて更新し、再診断します。</li></ol></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>このJDKの証明書データに更新が必要な例。</p><p><strong>次の確認：</strong>記載した根拠・対象を確認し、同じ条件で再診断してください。</p></li><li><p>通信検証は未実施です。</p><p><strong>次の確認：</strong>この導入先の実効CA・検証設定と、利用する経路の拒否結果を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="UPDATE" data-review="review" data-method="static" id="item-3"><h4>記録4：Java / Azulブロックリスト</h4><p>記録の判定：<span class="tag state-review">配布元の対応を確認</span></p><p>このJDKの証明書データに更新が必要な例。</p><dl class="data-list"><dt>検査対象</dt><dd>Java / Azulブロックリスト</dd><dt>検査方法</dt><dd>自動照合（保存データ）</dd><dt>検査範囲</dt><dd>取得した保存済みCA・失効情報の照合。</dd></dl><h5>設定・パス（JSON）</h5><pre>{}</pre></section></details></div></details></div></div></details></article></div></div><div class="result-group" data-result-group="configure" aria-labelledby="group-configure"><h2 id="group-configure">設定の修正が必要（主分類） <span>1ツール</span></h2><div class="result-list"><article data-tool="Python" data-state="configure" data-states="configure" data-actions="configure update investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">Python</span><span class="axis-summary"><span>版：公式対策版未満・更新対象 / 照合した部品のみ対応基準を満たす</span><span>通信：未実施</span></span></span><span class="tool-statuses"><span class="action-badge action-configure">設定の修正が必要</span><span class="action-badge action-update">更新が必要</span><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>2件</span></h3><div class="installation-result" data-action="configure"><details class="result-record"><summary class="result-row"><span class="record-name">環境 · …/example/old/python3</span><span class="tool-statuses"><span class="action-badge action-configure">設定の修正が必要</span><span class="action-badge action-update">更新が必要</span><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="action-reason action-update"><h4>更新が必要</h4><p>Python / pip バージョン</p><p>26.2.1 / 参考修正版 26.2.2 未満。配布元のバックポート有無も確認</p><p>対象の導入先を、適用範囲が一致する配布元の対応版へ更新してください。</p></div><div class="action-reason action-configure"><h4>設定の修正が必要</h4><p>Python / 証明書検証の設定</p><p>証明書検証を無効にする設定を検出した架空例。</p><p>記載した根拠・対象を確認し、同じ条件で再診断してください。</p></div><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>公式対策版未満・更新対象</strong><p class="axis-version">pip：26.2.1 / 照合基準 26.2.2</p><a href="https://pip.pypa.io/en/stable/news/#v26-2-2" target="_blank" rel="noopener noreferrer">出典・適用条件 ↗</a><p class="axis-scope">対象範囲：基準日時点の参考修正版と導入版の比較。 このPython環境のpipのみ。Python本体の版ではありません。</p><p class="evidence-links"><a href="#item-1" onclick="revealRecord('item-1')">記録2</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>未実施</strong><p>この導入先について通信検証の保存済み証拠がありません。</p><p class="axis-scope">対象範囲：同じ導入先の通信のみ。別環境の結果を流用しません。</p><p class="evidence-links"><a href="#item-1" onclick="revealRecord('item-1')">記録2</a></p></div></section><section class="assessment-axis" data-axis="configuration"><h4>設定・保存データ</h4><div class="axis-finding"><strong>設定上の問題を検出</strong><p>証明書検証を無効にする設定を検出した架空例。</p><p class="axis-scope">対象範囲：取得できた設定の確認。</p><p class="evidence-links"><a href="#item-2" onclick="revealRecord('item-2')">記録3</a></p></div></section></div><div class="next-action"><h4>このPythonのpipを更新する</h4><p class="version-data">現在: 26.2.1 / 参考修正版: 26.2.2</p><ol><li>項目名・検査データでPythonの場所を確認し、そのPythonが使うpipを導入元の方法で対応版へ更新します。</li><li>SSL_CERT_FILE・REQUESTS_CA_BUNDLE・PIP_CERTでCAファイルを指定している場合は、指定先のCAも更新します。</li><li>配布元の独自修正（バックポート）が適用されている場合は、その対応内容を確認します。</li><li>同じPC・ネットワークで再診断し、この項目の結果を確認します。</li></ol></div><div class="next-action"><h4>このPythonのCAと関連パッケージを更新する</h4><ol><li>項目名・検査データでPythonの場所を確認し、そのPythonが使うCAと関連パッケージを導入元の方法で対応版へ更新します。</li><li>SSL_CERT_FILE・REQUESTS_CA_BUNDLE・PIP_CERTでCAファイルを指定している場合は、指定先のCAも更新します。</li><li>同じPC・ネットワークで再診断し、この項目の結果を確認します。</li></ol></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>通信検証は未実施です。</p><p><strong>次の確認：</strong>この導入先の実効CA・検証設定と、利用する経路の拒否結果を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="UPDATE" data-review="action" data-method="version" id="item-1"><h4>記録2：Python / pip バージョン</h4><p>記録の判定：<span class="tag state-action">更新が必要</span></p><p>26.2.1 / 参考修正版 26.2.2 未満。配布元のバックポート有無も確認</p><dl class="data-list"><dt>検査対象</dt><dd>Python / pip バージョン</dd><dt>対象の場所</dt><dd><code>/example/old/python3</code></dd><dt>検査方法</dt><dd>推定（バージョン）</dd><dt>検査範囲</dt><dd>基準日時点の参考修正版と導入版の比較。</dd></dl><a href="https://pip.pypa.io/en/stable/news/#v26-2-2" target="_blank" rel="noopener noreferrer">配布元の対応情報 ↗</a><h5>設定・パス（JSON）</h5><pre>{
+  &quot;tool_id&quot;: &quot;python&quot;,
+  &quot;tool_name&quot;: &quot;Python&quot;,
+  &quot;executable&quot;: &quot;/example/old/python3&quot;,
+  &quot;version&quot;: &quot;26.2.1&quot;,
+  &quot;reference_floor&quot;: &quot;26.2.2&quot;,
+  &quot;source&quot;: &quot;https://pip.pypa.io/en/stable/news/#v26-2-2&quot;,
+  &quot;as_of&quot;: &quot;2026-11-02&quot;
+}</pre></section><section class="ACTION" data-review="action" data-method="configuration" id="item-2"><h4>記録3：Python / 証明書検証の設定</h4><p>記録の判定：<span class="tag state-action">設定・接続を確認</span></p><p>証明書検証を無効にする設定を検出した架空例。</p><dl class="data-list"><dt>検査対象</dt><dd>Python / 証明書検証の設定</dd><dt>対象の場所</dt><dd><code>/example/old/python3</code></dd><dt>検査方法</dt><dd>自動確認（設定）</dd><dt>検査範囲</dt><dd>取得できた設定の確認。</dd></dl><h5>設定・パス（JSON）</h5><pre>{
+  &quot;tool_id&quot;: &quot;python&quot;,
+  &quot;tool_name&quot;: &quot;Python&quot;,
+  &quot;executable&quot;: &quot;/example/old/python3&quot;
+}</pre></section></details></div></details></div><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">環境 · …/example/new/python3</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>照合した部品のみ対応基準を満たす</strong><p class="axis-version">pip：26.2.2 / 照合基準 26.2.2</p><a href="https://pip.pypa.io/en/stable/news/#v26-2-2" target="_blank" rel="noopener noreferrer">出典・適用条件 ↗</a><p class="axis-scope">対象範囲：基準日時点の参考修正版と導入版の比較。 このPython環境のpipのみ。Python本体の版ではありません。</p><p class="evidence-links"><a href="#item-7" onclick="revealRecord('item-7')">記録8</a></p></div><div class="axis-finding"><strong>照合した部品のみ対応基準を満たす</strong><p class="axis-version">ensurepip同梱pip（新規venv用）：26.2.2 / 照合基準 26.2.2</p><a href="https://pip.pypa.io/en/stable/news/#v26-2-2" target="_blank" rel="noopener noreferrer">出典・適用条件 ↗</a><p class="axis-scope">対象範囲：基準日時点の参考修正版と導入版の比較。 このPythonのensurepipが新規venvへ導入するpipのみ。既存venvのpipとは別です。</p><p class="evidence-links"><a href="#item-8" onclick="revealRecord('item-8')">記録9</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>未実施</strong><p>別の導入先の版は良好でも、普段の通信は未検査です。</p><p class="axis-scope">対象範囲：記載した未確認の対象について、追加確認が必要です。</p><p class="evidence-links"><a href="#item-15" onclick="revealRecord('item-15')">記録16</a></p></div></section></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>別の導入先の版は良好でも、普段の通信は未検査です。</p><p><strong>次の確認：</strong>この導入先で使用するTLS・CA設定と、普段の接続先での拒否結果を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="INFERRED_OK" data-review="complete" data-method="version" id="item-7"><h4>記録8：Python / pip バージョン</h4><p>記録の判定：<span class="tag state-complete">対応版を使用中</span></p><p>26.2.2 / 参考修正版 26.2.2 以上。実通信の結果とは別の判定</p><dl class="data-list"><dt>検査対象</dt><dd>Python / pip バージョン</dd><dt>検査方法</dt><dd>推定（バージョン）</dd><dt>検査範囲</dt><dd>基準日時点の参考修正版と導入版の比較。</dd></dl><a href="https://pip.pypa.io/en/stable/news/#v26-2-2" target="_blank" rel="noopener noreferrer">配布元の対応情報 ↗</a><h5>設定・パス（JSON）</h5><pre>{
+  &quot;tool_id&quot;: &quot;python&quot;,
+  &quot;tool_name&quot;: &quot;Python&quot;,
+  &quot;executable&quot;: &quot;/example/new/python3&quot;,
+  &quot;version&quot;: &quot;26.2.2&quot;,
+  &quot;reference_floor&quot;: &quot;26.2.2&quot;,
+  &quot;source&quot;: &quot;https://pip.pypa.io/en/stable/news/#v26-2-2&quot;,
+  &quot;as_of&quot;: &quot;2026-11-02&quot;
+}</pre></section><section class="INFERRED_OK" data-review="complete" data-method="version" id="item-8"><h4>記録9：Python / ensurepip同梱pip（新規venv用）</h4><p>記録の判定：<span class="tag state-complete">対応版を使用中</span></p><p>26.2.2 / 参考修正版 26.2.2 以上。実通信の結果とは別の判定</p><dl class="data-list"><dt>検査対象</dt><dd>Python / ensurepip同梱pip（新規venv用）</dd><dt>検査方法</dt><dd>推定（バージョン）</dd><dt>検査範囲</dt><dd>基準日時点の参考修正版と導入版の比較。</dd></dl><a href="https://pip.pypa.io/en/stable/news/#v26-2-2" target="_blank" rel="noopener noreferrer">配布元の対応情報 ↗</a><h5>設定・パス（JSON）</h5><pre>{
+  &quot;tool_id&quot;: &quot;python&quot;,
+  &quot;tool_name&quot;: &quot;Python&quot;,
+  &quot;executable&quot;: &quot;/example/new/python3&quot;,
+  &quot;version&quot;: &quot;26.2.2&quot;,
+  &quot;reference_floor&quot;: &quot;26.2.2&quot;,
+  &quot;source&quot;: &quot;https://pip.pypa.io/en/stable/news/#v26-2-2&quot;,
+  &quot;as_of&quot;: &quot;2026-11-02&quot;
+}</pre></section><section class="MANUAL" data-review="unverified" data-method="manual" id="item-15"><h4>記録16：Python / 普段の通信</h4><p>記録の判定：<span class="tag state-unverified">未判定</span></p><p>別の導入先の版は良好でも、普段の通信は未検査です。</p><dl class="data-list"><dt>検査対象</dt><dd>Python / 普段の通信</dd><dt>検査方法</dt><dd>追加確認</dd><dt>検査範囲</dt><dd>記載した未確認の対象について、追加確認が必要です。</dd></dl><h5>設定・パス（JSON）</h5><pre>{
+  &quot;tool_id&quot;: &quot;python&quot;,
+  &quot;tool_name&quot;: &quot;Python&quot;,
+  &quot;executable&quot;: &quot;/example/new/python3&quot;
+}</pre></section></details></div></details></div></div></details></article></div></div><div class="result-group" data-result-group="investigate" aria-labelledby="group-investigate"><h2 id="group-investigate">追加確認が必要（主分類） <span>10ツール</span></h2><div class="result-list"><article data-tool="Docker" data-state="investigate" data-states="investigate" data-actions="investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">Docker</span><span class="axis-summary"><span>版：取得した版だけでは対応状況を判断できない</span><span>通信：未実施</span></span></span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">Docker Desktop</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>取得した版だけでは対応状況を判断できない</strong><p class="axis-version">本体：4.96.3</p><p class="axis-scope">対象範囲：基準日時点の参考修正版と導入版の比較。</p><p class="evidence-links"><a href="#item-18" onclick="revealRecord('item-18')">記録19</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>未実施</strong><p>この導入先について通信検証の保存済み証拠がありません。</p><p class="axis-scope">対象範囲：同じ導入先の通信のみ。別環境の結果を流用しません。</p><p class="evidence-links"><a href="#item-18" onclick="revealRecord('item-18')">記録19</a></p></div></section></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>Docker Desktopは部品ごとに対策を段階適用しています。CLI・Engine・BuildKitなどの版を個別に確認してください。</p><p><strong>次の確認：</strong>同じ導入先の本体版・使用部品・配布形式を取得し、適用できる公式情報と照合してください。</p></li><li><p>通信検証は未実施です。</p><p><strong>次の確認：</strong>この導入先の実効CA・検証設定と、利用する経路の拒否結果を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="MANUAL" data-review="unverified" data-method="version" id="item-18"><h4>記録19：Docker Desktop</h4><p>記録の判定：<span class="tag state-unverified">部品ごとの対策を確認</span></p><p>Docker Desktopは部品ごとに対策を段階適用しています。CLI・Engine・BuildKitなどの版を個別に確認してください。</p><dl class="data-list"><dt>検査対象</dt><dd>Docker Desktop</dd><dt>検査方法</dt><dd>推定（バージョン）</dd><dt>検査範囲</dt><dd>基準日時点の参考修正版と導入版の比較。</dd></dl><h5>公式の対策版・判定基準</h5><p>CLI / Engine 29.9.2。Desktopは4.96.1〜4.96.3で段階適用</p><p>Desktop 4.96.1・4.96.2は公式に残りの部品を後続版で更新と記載。4.96.2だけで全同梱部品の完了判定をしない。コンテナ内部のCAは別。</p><p><a href="https://github.com/docker/cli/releases/tag/v29.9.2" target="_blank" rel="noopener noreferrer">https://github.com/docker/cli/releases/tag/v29.9.2</a></p><p><a href="https://docs.docker.com/desktop/release-notes/" target="_blank" rel="noopener noreferrer">https://docs.docker.com/desktop/release-notes/</a></p><h5>設定・パス（JSON）</h5><pre>{
+  &quot;version&quot;: &quot;4.96.3&quot;,
+  &quot;release_condition&quot;: &quot;部品ごとの対策を確認&quot;,
+  &quot;research&quot;: {
+    &quot;name&quot;: &quot;Docker&quot;,
+    &quot;category&quot;: &quot;release&quot;,
+    &quot;fixed_version&quot;: &quot;CLI / Engine 29.9.2。Desktopは4.96.1〜4.96.3で段階適用&quot;,
+    &quot;basis&quot;: &quot;CLIとdaemon、Desktop内の各部品を区別&quot;,
+    &quot;notes&quot;: &quot;Desktop 4.96.1・4.96.2は公式に残りの部品を後続版で更新と記載。4.96.2だけで全同梱部品の完了判定をしない。コンテナ内部のCAは別。&quot;,
+    &quot;sources&quot;: [
+      &quot;https://github.com/docker/cli/releases/tag/v29.9.2&quot;,
+      &quot;https://docs.docker.com/desktop/release-notes/&quot;
+    ],
+    &quot;review&quot;: {
+      &quot;checked_at&quot;: &quot;2026-11-02&quot;,
+      &quot;status&quot;: &quot;release-mitigation-confirmed&quot;,
+      &quot;evidence_family&quot;: &quot;official-release&quot;,
+      &quot;first_fixed_versions&quot;: [],
+      &quot;known_fixed_versions&quot;: [
+        &quot;29.9.2 CLI/Engine&quot;
+      ],
+      &quot;first_fixed_scope&quot;: &quot;初回対策版の全履歴を確定していない。確認済み版・対象範囲と区別する。&quot;,
+      &quot;distribution_scope&quot;: &quot;CLIとdaemon、Desktop内の各部品を区別。Desktop 4.96.1・4.96.2は公式に残りの部品を後続版で更新と記載。4.96.2だけで全同梱部品の完了判定をしない。コンテナ内部のCAは別。&quot;,
+      &quot;os_scope&quot;: &quot;出典に示す配布・系列の範囲。別OS・独自build・未確認後続系列へ無条件適用しない。&quot;,
+      &quot;required_evidence&quot;: [
+        &quot;raw version and full build&quot;,
+        &quot;same executable/distribution/OS&quot;,
+        &quot;runtime/component evidence when conditional&quot;,
+        &quot;effective CA overrides&quot;
+      ],
+      &quot;component_basis&quot;: [],
+      &quot;comparison_scope&quot;: &quot;CLIとdaemon、Desktop内の各部品を区別&quot;,
+      &quot;unconfirmed&quot;: &quot;Desktop 4.96.1・4.96.2は公式に残りの部品を後続版で更新と記載。4.96.2だけで全同梱部品の完了判定をしない。コンテナ内部のCAは別。&quot;,
+      &quot;source_review&quot;: &quot;公式release/advisory/固定tagの対象版を再点検。全歴史・全配布形式の網羅証明ではない。&quot;,
+      &quot;source_retrieval&quot;: &quot;reviewed-official-material&quot;,
+      &quot;collection_policy&quot;: &quot;取得済みの同一実体・実行環境の情報のみを再判定。新規スキャン・通信は今回実施しない。&quot;,
+      &quot;verification_scope&quot;: {
+        &quot;kind&quot;: &quot;local-release-source-review&quot;,
+        &quot;checked_sources&quot;: [
+          &quot;https://github.com/docker/cli/releases/tag/v29.9.2&quot;,
+          &quot;https://docs.docker.com/desktop/release-notes/&quot;
+        ],
+        &quot;retained_source_count&quot;: 0,
+        &quot;note&quot;: &quot;公式release/advisory/固定tagの対象版を再点検。全歴史・全配布形式の網羅証明ではない。&quot;
+      }
+    }
+  }
+}</pre></section></details></div></details></div></div></details></article><article data-tool="Editor" data-state="investigate" data-states="investigate" data-actions="investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">Editor</span><span class="axis-summary"><span>版：判定に必要な版・実行環境を取得できない</span><span>通信：未実施</span></span></span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">アプリ / Example Editor（架空例）</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>判定に必要な版・実行環境を取得できない</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：記載した未確認の対象について、追加確認が必要です。</p><p class="evidence-links"><a href="#item-19" onclick="revealRecord('item-19')">記録20</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>未実施</strong><p>同梱情報を取得できなかった例。</p><p class="axis-scope">対象範囲：記載した未確認の対象について、追加確認が必要です。</p><p class="evidence-links"><a href="#item-19" onclick="revealRecord('item-19')">記録20</a></p></div></section></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>同梱情報を取得できなかった例。</p><p><strong>次の確認：</strong>配布元の対策情報とアプリ自身の通信を確認してください。</p></li><li><p>対応する同梱メタデータは見つかりません。</p><p><strong>次の確認：</strong>配布元の対策情報とアプリ自身の通信を確認してください。</p></li><li><p>実通信は未検査</p><p><strong>次の確認：</strong>配布元の対策情報とアプリ自身の通信を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="MANUAL" data-review="unverified" data-method="manual" id="item-19"><h4>記録20：アプリ / Example Editor（架空例）</h4><p>記録の判定：<span class="tag state-unverified">このツールの通信は未確認</span></p><p>同梱情報を取得できなかった例。</p><ul><li>対応する同梱メタデータは見つかりません。</li><li>実通信は未検査</li></ul><dl class="data-list"><dt>検査対象</dt><dd>アプリ / Example Editor（架空例）</dd><dt>検査方法</dt><dd>追加確認</dd><dt>検査範囲</dt><dd>記載した未確認の対象について、追加確認が必要です。</dd></dl><h5>設定・パス（JSON）</h5><pre>{
+  &quot;application&quot;: true,
+  &quot;path&quot;: &quot;/example/Editor&quot;,
+  &quot;coverage_state&quot;: &quot;uninspected&quot;,
+  &quot;inspections&quot;: [],
+  &quot;uninspected&quot;: [
+    &quot;対応する同梱メタデータは見つかりません。&quot;,
+    &quot;実通信は未検査&quot;
+  ]
+}</pre></section></details></div></details></div></div></details></article><article data-tool="Example CLI（架空例）" data-state="investigate" data-states="investigate" data-actions="investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">Example CLI（架空例）</span><span class="axis-summary"><span>版：使用するNode.jsが対策版未満・配布元の対応を確認</span><span>通信：未実施</span></span></span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">cli · …/example/bin/cli</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>使用するNode.jsが対策版未満・配布元の対応を確認</strong><p class="axis-version">node：22.22.2 / 照合基準 22.23.4</p><a href="https://nodejs.org/en/blog/vulnerability/october-2026-security-releases" target="_blank" rel="noopener noreferrer">出典・適用条件 ↗</a><p class="axis-scope">対象範囲：この導入が使用するNode.jsの標準の証明書データを版照合。アプリ独自のCA・通信設定は別に確認します。</p><p class="evidence-links"><a href="#item-4" onclick="revealRecord('item-4')">記録5</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>未実施</strong><p>この導入先について通信検証の保存済み証拠がありません。</p><p class="axis-scope">対象範囲：同じ導入先の通信のみ。別環境の結果を流用しません。</p><p class="evidence-links"><a href="#item-4" onclick="revealRecord('item-4')">記録5</a></p></div></section></div><div class="next-action"><h4>このツールが使用するNode.jsを更新する</h4><p class="version-data">使用するNode.js: 22.22.2 / 対策版: 22.23.4</p><ol><li>このツールを導入した方法で更新し、表示されたNode.jsも対策版へ更新されるか確認します。</li><li>最新版でも表示が続く場合は、配布元の対応版・独自修正（バックポート）を確認します。別の場所のNode.jsを更新しても、この起動経路は変わらない場合があります。</li><li>更新後に再診断し、この導入が使用するNode.jsの版を確認します。</li></ol></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>22.22.2 / 参考修正版 22.23.4 未満。配布元のバックポート有無も確認</p><p><strong>次の確認：</strong>配布元の対応状況を確認し、独自修正・バックポートの有無と更新先を確認してください。</p></li><li><p>通信検証は未実施です。</p><p><strong>次の確認：</strong>この導入先の実効CA・検証設定と、利用する経路の拒否結果を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="UPDATE" data-review="review" data-method="version" id="item-4"><h4>記録5：Example CLI（架空例） / 使用するNode.js</h4><p>記録の判定：<span class="tag state-review">使用するNode.jsが対策版未満</span></p><p>22.22.2 / 参考修正版 22.23.4 未満。配布元のバックポート有無も確認</p><dl class="data-list"><dt>検査対象</dt><dd>Example CLI（架空例） / 使用するNode.js</dd><dt>対象の場所</dt><dd><code>/example/bin/cli</code></dd><dt>検査方法</dt><dd>推定（バージョン）</dd><dt>検査範囲</dt><dd>この導入が使用するNode.jsの標準の証明書データを版照合。アプリ独自のCA・通信設定は別に確認します。</dd></dl><a href="https://nodejs.org/en/blog/vulnerability/october-2026-security-releases" target="_blank" rel="noopener noreferrer">配布元の対応情報 ↗</a><h5>設定・パス（JSON）</h5><pre>{
+  &quot;tool_id&quot;: &quot;example-cli&quot;,
+  &quot;tool_name&quot;: &quot;Example CLI（架空例）&quot;,
+  &quot;executable&quot;: &quot;/example/bin/cli&quot;,
+  &quot;runtime_component&quot;: &quot;node&quot;,
+  &quot;runtime_version&quot;: &quot;22.22.2&quot;,
+  &quot;runtime_basis&quot;: &quot;version-output&quot;,
+  &quot;reference_floor&quot;: &quot;22.23.4&quot;,
+  &quot;source&quot;: &quot;https://nodejs.org/en/blog/vulnerability/october-2026-security-releases&quot;,
+  &quot;as_of&quot;: &quot;2026-11-02&quot;
+}</pre></section></details></div></details></div></div></details></article><article data-tool="Example Desktop" data-state="investigate" data-states="investigate" data-actions="investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">Example Desktop</span><span class="axis-summary"><span>版：同梱Electronが対策版未満・配布元の対応を確認</span><span>通信：未実施</span></span></span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">アプリ / Example Desktop（架空例）</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>同梱Electronが対策版未満・配布元の対応を確認</strong><p class="axis-version">electron：44.4.3 / 照合基準 44.9.1</p><a href="https://github.com/electron/electron/security/advisories/GHSA-jr5w-w6x2-84p9" target="_blank" rel="noopener noreferrer">出典・適用条件 ↗</a><p class="axis-scope">対象範囲：同じ導入実体で取得した部品の版照合。実通信・独自CA設定は未検査。</p><p class="evidence-links"><a href="#item-6" onclick="revealRecord('item-6')">記録7</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>未実施</strong><p>この導入先について通信検証の保存済み証拠がありません。</p><p class="axis-scope">対象範囲：同じ導入先の通信のみ。別環境の結果を流用しません。</p><p class="evidence-links"><a href="#item-6" onclick="revealRecord('item-6')">記録7</a></p></div></section></div><div class="next-action"><h4>配布元の対応状況を確認する</h4><ol><li>アプリが最新版でも、同梱ソフトウェアが対策版に達していない場合があります。配布元の更新履歴・セキュリティ情報でeMudhraへの対応を確認します。</li><li>対応版が提供されている場合は、アプリを導入した方法で更新します。自分でビルドしたアプリは、対策済みの実行環境・ライブラリでビルドし直します。</li><li>最新版でも表示が続く場合は、配布元に対応版の提供予定・独自修正（バックポート）の有無を確認します。PC側のGo・Python・Javaだけを更新しても、アプリの同梱物は置き換わりません。</li><li>更新後に再診断し、同梱バージョンと判定を確認します。</li></ol></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>同梱Electronの参考修正版 44.9.1 と照合。</p><p><strong>次の確認：</strong>配布元の対応状況を確認し、独自修正・バックポートの有無と更新先を確認してください。</p></li><li><p>CAファイル：ファイル内に対象証明書はありませんが、接続を拒否できるかは判断できません。</p><p><strong>次の確認：</strong>同じ導入先のこの部品・保存データについて、配布元の対応と実際の適用状態を確認してください。</p></li><li><p>アプリの実効CA・独自検証設定・実通信は未検査</p><p><strong>次の確認：</strong>記載した根拠・対象を確認し、同じ条件で再診断してください。</p></li><li><p>通信検証は未実施です。</p><p><strong>次の確認：</strong>この導入先の実効CA・検証設定と、利用する経路の拒否結果を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="UPDATE" data-review="review" data-method="version" id="item-6"><h4>記録7：アプリ / Example Desktop（架空例）</h4><p>記録の判定：<span class="tag state-review">同梱Electronが対策版未満</span></p><p>取得済みの同梱部品を再照合。electron 44.4.3: 同梱Electronの参考修正版 44.9.1 と照合。</p><div class="scroll"><table class="component-table"><thead><tr><th>検査内容</th><th>同梱バージョン</th><th>対策版</th><th>結果</th><th>件数</th></tr></thead><tbody><tr><td>CAファイル</td><td>—</td><td>—</td><td><span class="tag state-unverified">CAファイルを確認</span></td><td>1</td></tr></tbody></table></div><ul><li>アプリの実効CA・独自検証設定・実通信は未検査</li></ul><h5>同梱部品の検査ファイル</h5><div class="scroll"><table><thead><tr><th>部品</th><th>バージョン</th><th>結果</th><th>ファイル・観測内容</th></tr></thead><tbody><tr><td>同梱Electron</td><td>44.4.3</td><td>対策版未満</td><td><code>/example/Example Desktop.app/Contents/electron</code><p>同梱Electronの参考修正版 44.9.1 と照合。</p></td></tr><tr><td>CAファイル</td><td>—</td><td>CAファイルを確認</td><td><code></code><p>ファイル内に対象証明書はありませんが、接続を拒否できるかは判断できません。</p></td></tr></tbody></table></div><dl class="data-list"><dt>検査対象</dt><dd>アプリ / Example Desktop（架空例）</dd><dt>対象の場所</dt><dd><code>/example/Example Desktop.app</code></dd><dt>検査方法</dt><dd>推定（バージョン）</dd><dt>検査範囲</dt><dd>同じ導入実体で取得した部品の版照合。実通信・独自CA設定は未検査。</dd></dl><a href="https://github.com/electron/electron/security/advisories/GHSA-jr5w-w6x2-84p9" target="_blank" rel="noopener noreferrer">配布元の対応情報 ↗</a><h5>設定・パス（JSON）</h5><pre>{
+  &quot;application&quot;: true,
+  &quot;path&quot;: &quot;/example/Example Desktop.app&quot;,
+  &quot;coverage_state&quot;: &quot;partial&quot;,
+  &quot;version&quot;: &quot;44.4.3&quot;,
+  &quot;reference_floor&quot;: &quot;44.9.1&quot;,
+  &quot;source&quot;: &quot;https://github.com/electron/electron/security/advisories/GHSA-jr5w-w6x2-84p9&quot;,
+  &quot;inspections&quot;: [
+    {
+      &quot;component&quot;: &quot;electron&quot;,
+      &quot;status&quot;: &quot;UPDATE&quot;,
+      &quot;method&quot;: &quot;version&quot;,
+      &quot;version&quot;: &quot;44.4.3&quot;,
+      &quot;reference_floor&quot;: &quot;44.9.1&quot;,
+      &quot;path&quot;: &quot;/example/Example Desktop.app/Contents/electron&quot;,
+      &quot;detail&quot;: &quot;同梱Electronの参考修正版 44.9.1 と照合。&quot;,
+      &quot;source&quot;: &quot;https://github.com/electron/electron/security/advisories/GHSA-jr5w-w6x2-84p9&quot;,
+      &quot;captured_assessment&quot;: {
+        &quot;status&quot;: &quot;UPDATE&quot;,
+        &quot;reference_floor&quot;: &quot;44.9.1&quot;,
+        &quot;source&quot;: null
+      },
+      &quot;reassessed_at&quot;: &quot;2026-11-02&quot;
+    },
+    {
+      &quot;component&quot;: &quot;CAファイル&quot;,
+      &quot;status&quot;: &quot;MANUAL&quot;,
+      &quot;method&quot;: &quot;static&quot;,
+      &quot;matched&quot;: 0,
+      &quot;detail&quot;: &quot;ファイル内に対象証明書はありませんが、接続を拒否できるかは判断できません。&quot;
+    }
+  ],
+  &quot;uninspected&quot;: [
+    &quot;アプリの実効CA・独自検証設定・実通信は未検査&quot;
+  ],
+  &quot;release_review&quot;: false
+}</pre></section></details></div></details></div></div></details></article><article data-tool="Google Chrome" data-state="investigate" data-states="investigate" data-actions="investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">Google Chrome</span><span class="axis-summary"><span>版：版による判定は未実施</span><span>通信：未実施</span></span></span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">Chrome CRLSet</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-13" onclick="revealRecord('item-13')">記録14</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>未実施</strong><p>この導入先について通信検証の保存済み証拠がありません。</p><p class="axis-scope">対象範囲：同じ導入先の通信のみ。別環境の結果を流用しません。</p><p class="evidence-links"><a href="#item-13" onclick="revealRecord('item-13')">記録14</a></p></div></section><section class="assessment-axis" data-axis="configuration"><h4>設定・保存データ</h4><div class="axis-finding"><strong>保存データ・配置のみ確認</strong><p>保存データで対象TLS用6鍵を照合した例。</p><p class="axis-scope">対象範囲：取得した保存済みCA・失効情報の照合。</p><p class="evidence-links"><a href="#item-13" onclick="revealRecord('item-13')">記録14</a></p></div></section></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>通信検証は未実施です。</p><p><strong>次の確認：</strong>この導入先の実効CA・検証設定と、利用する経路の拒否結果を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="STATIC_OK" data-review="complete" data-method="static" id="item-13"><h4>記録14：Chrome CRLSet</h4><p>記録の判定：<span class="tag state-complete">保存済み拒否情報を照合</span></p><p>保存データで対象TLS用6鍵を照合した例。</p><dl class="data-list"><dt>検査対象</dt><dd>Chrome CRLSet</dd><dt>検査方法</dt><dd>自動照合（保存データ）</dd><dt>検査範囲</dt><dd>取得した保存済みCA・失効情報の照合。</dd></dl><h5>設定・パス（JSON）</h5><pre>{
+  &quot;matched&quot;: 6,
+  &quot;total&quot;: 6
+}</pre></section></details></div></details></div></div></details></article><article data-tool="Node.js" data-state="investigate" data-states="investigate" data-actions="investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">Node.js</span><span class="axis-summary"><span>版：版による判定は未実施</span><span>通信：検査先の証明書を拒否できた（実測） / 実行失敗・結果を判定できない</span></span></span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>2件</span></h3><div class="installation-result" data-action="checked"><details class="result-record"><summary class="result-row"><span class="record-name">ホスト / Node.js https</span><span class="tool-statuses"><span class="action-badge action-checked">検査した範囲で問題なし</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-10" onclick="revealRecord('item-10')">記録11</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>検査先の証明書を拒否できた（実測）</strong><p>別の接続テストではブロックできた例。</p><p class="axis-scope">対象範囲：検査したクライアントと接続先に限ります。</p><p class="evidence-links"><a href="#item-10" onclick="revealRecord('item-10')">記録11</a></p></div></section></div><details class="inspection-data"><summary>検査データ・原記録</summary><section class="REJECTED" data-review="complete" data-method="measured" id="item-10"><h4>記録11：ホスト / Node.js https</h4><p>記録の判定：<span class="tag state-complete">検査先の証明書を拒否できた</span></p><p>別の接続テストではブロックできた例。</p><div class="scroll"><table><thead><tr><th>接続先</th><th>結果</th><th>観測内容</th></tr></thead><tbody><tr><td>通常サイト</td><td>接続できた</td><td>接続できた</td></tr><tr><td>emSign / CTあり</td><td>検査先の証明書を拒否できた</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>AAA経路 / CTあり</td><td>検査先の証明書を拒否できた</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>emSign / CTなし</td><td>検査先の証明書を拒否できた</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>AAA経路 / CTなし</td><td>検査先の証明書を拒否できた</td><td>この行は表示確認用の架空の観測です。</td></tr></tbody></table></div><dl class="data-list"><dt>検査対象</dt><dd>ホスト / Node.js https</dd><dt>検査方法</dt><dd>実測（通信）</dd><dt>検査範囲</dt><dd>検査したクライアントと接続先に限ります。</dd></dl><h5>設定・パス（JSON）</h5><pre>{}</pre></section></details></div></details></div><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">Node.js fetch</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-16" onclick="revealRecord('item-16')">記録17</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>実行失敗・結果を判定できない</strong><p>通信エラーで原因を特定できなかった例。</p><p class="axis-scope">対象範囲：検査したクライアントと接続先に限ります。</p><p class="evidence-links"><a href="#item-16" onclick="revealRecord('item-16')">記録17</a></p></div></section></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>通信エラーで原因を特定できなかった例。</p><p><strong>次の確認：</strong>通常サイトへの疎通と接続先の証明書エラーを確認し、同じ条件で再診断してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="UNKNOWN" data-review="unverified" data-method="measured" id="item-16"><h4>記録17：Node.js fetch</h4><p>記録の判定：<span class="tag state-unverified">未判定</span></p><p>通信エラーで原因を特定できなかった例。</p><div class="scroll"><table><thead><tr><th>接続先</th><th>結果</th><th>観測内容</th></tr></thead><tbody><tr><td>通常サイト</td><td>接続できた</td><td>接続できた</td></tr><tr><td>emSign / CTあり</td><td>未判定</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>AAA経路 / CTあり</td><td>未判定</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>emSign / CTなし</td><td>未判定</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>AAA経路 / CTなし</td><td>未判定</td><td>この行は表示確認用の架空の観測です。</td></tr></tbody></table></div><dl class="data-list"><dt>検査対象</dt><dd>Node.js fetch</dd><dt>検査方法</dt><dd>実測（通信）</dd><dt>検査範囲</dt><dd>検査したクライアントと接続先に限ります。</dd></dl><h5>設定・パス（JSON）</h5><pre>{}</pre></section></details></div></details></div></div></details></article><article data-tool="OSV-Scanner" data-state="investigate" data-states="investigate" data-actions="investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">OSV-Scanner</span><span class="axis-summary"><span>版：版による判定は未実施</span><span>通信：公式APIへの合成データ照会を確認・検査用サイトは未確認</span></span></span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">osv-scanner · …//example/osv-scanner</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-9" onclick="revealRecord('item-9')">記録10</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>公式APIへの合成データ照会を確認・検査用サイトは未確認</strong><p>公式APIへ合成依存を照会した架空例。検査用サイトへの拒否結果は未確認です。</p><p class="axis-scope">対象範囲：検査したクライアントと接続先に限ります。</p><p class="evidence-links"><a href="#item-9" onclick="revealRecord('item-9')">記録10</a></p></div></section></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>公式APIへの合成依存の照会は、問題の証明書を拒否する検査とは別です。</p><p><strong>次の確認：</strong>検査用サイトへの拒否結果と、利用者の実際の取得先・CA設定を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="CHECKED" data-review="complete" data-method="measured" id="item-9"><h4>記録10：OSV-Scanner / 合成データの照会</h4><p>記録の判定：<span class="tag state-complete">合成データの照会結果を確認</span></p><p>公式APIへ合成依存を照会した架空例。検査用サイトへの拒否結果は未確認です。</p><dl class="data-list"><dt>検査対象</dt><dd>OSV-Scanner / 合成データの照会</dd><dt>検査方法</dt><dd>実測（通信）</dd><dt>検査範囲</dt><dd>検査したクライアントと接続先に限ります。</dd></dl><h5>設定・パス（JSON）</h5><pre>{
+  &quot;tool_id&quot;: &quot;osv-scanner&quot;,
+  &quot;tool_name&quot;: &quot;OSV-Scanner&quot;,
+  &quot;executable&quot;: &quot;/example/osv-scanner&quot;,
+  &quot;probe&quot;: &quot;synthetic_osv_query&quot;
+}</pre></section></details></div></details></div></div></details></article><article data-tool="PHP" data-state="investigate" data-states="investigate" data-actions="investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">PHP</span><span class="axis-summary"><span>版：版による判定は未実施</span><span>通信：検査先の証明書を拒否できた（推定）・拒否理由は別接続から推定</span></span></span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">PHP streams</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-12" onclick="revealRecord('item-12')">記録13</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>検査先の証明書を拒否できた（推定）・拒否理由は別接続から推定</strong><p>接続失敗を実測し、同じ版・CA設定の別接続で拒否原因を推定した例。</p><p class="axis-scope">対象範囲：接続失敗は実測、原因は同じ版・CA設定の別接続から推定。</p><p class="evidence-links"><a href="#item-12" onclick="revealRecord('item-12')">記録13</a></p></div></section></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>接続失敗の原因は別接続からの推定です。</p><p><strong>次の確認：</strong>対象クライアント自身の証明書検証エラーと、適用されたCA設定を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="INFERRED_REJECTED" data-review="complete" data-method="corroborated" id="item-12"><h4>記録13：PHP streams</h4><p>記録の判定：<span class="tag state-complete">検査先の証明書を拒否できた（推定）</span></p><p>接続失敗を実測し、同じ版・CA設定の別接続で拒否原因を推定した例。</p><div class="scroll"><table><thead><tr><th>接続先</th><th>結果</th><th>観測内容</th></tr></thead><tbody><tr><td>通常サイト</td><td>接続できた</td><td>接続できた</td></tr><tr><td>emSign / CTあり</td><td>検査先の証明書を拒否できた（推定）</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>AAA経路 / CTあり</td><td>検査先の証明書を拒否できた（推定）</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>emSign / CTなし</td><td>検査先の証明書を拒否できた（推定）</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>AAA経路 / CTなし</td><td>検査先の証明書を拒否できた（推定）</td><td>この行は表示確認用の架空の観測です。</td></tr></tbody></table></div><dl class="data-list"><dt>検査対象</dt><dd>PHP streams</dd><dt>検査方法</dt><dd>実測＋推定（別接続で再検証）</dd><dt>検査範囲</dt><dd>接続失敗は実測、原因は同じ版・CA設定の別接続から推定。</dd></dl><h5>設定・パス（JSON）</h5><pre>{}</pre></section></details></div></details></div></div></details></article><article data-tool="Safari" data-state="investigate" data-states="investigate" data-actions="investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">Safari</span><span class="axis-summary"><span>版：版による判定は未実施</span><span>通信：未実施</span></span></span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">Safari の信頼確認</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-17" onclick="revealRecord('item-17')">記録18</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>未実施</strong><p>版の情報は取得したが、実通信は未確認の例。</p><p class="axis-scope">対象範囲：記載した未確認の対象について、追加確認が必要です。</p><p class="evidence-links"><a href="#item-17" onclick="revealRecord('item-17')">記録18</a></p></div></section></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>版の情報は取得したが、実通信は未確認の例。</p><p><strong>次の確認：</strong>Safariの配布元が公開する対応情報を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="MANUAL" data-review="unverified" data-method="manual" id="item-17"><h4>記録18：Safari の信頼確認</h4><p>記録の判定：<span class="tag state-unverified">未判定</span></p><p>版の情報は取得したが、実通信は未確認の例。</p><dl class="data-list"><dt>検査対象</dt><dd>Safari の信頼確認</dd><dt>検査方法</dt><dd>追加確認</dd><dt>検査範囲</dt><dd>記載した未確認の対象について、追加確認が必要です。</dd></dl><h5>設定・パス（JSON）</h5><pre>{}</pre></section></details></div></details></div></div></details></article><article data-tool="scanner" data-state="investigate" data-states="investigate" data-actions="investigate"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">scanner</span><span class="axis-summary"><span>版：同梱Goが対策版未満・配布元の対応を確認</span><span>通信：未実施</span></span></span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="investigate"><details class="result-record"><summary class="result-row"><span class="record-name">アプリ / Example Scanner（架空例）</span><span class="tool-statuses"><span class="action-badge action-investigate">追加確認が必要</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>同梱Goが対策版未満・配布元の対応を確認</strong><p class="axis-version">go：1.27.2 / 照合基準 1.27.3</p><a href="https://pkg.go.dev/vuln/GO-2026-6809" target="_blank" rel="noopener noreferrer">出典・適用条件 ↗</a><p class="axis-scope">対象範囲：同じ導入実体で取得した部品の版照合。実通信・独自CA設定は未検査。</p><p class="evidence-links"><a href="#item-5" onclick="revealRecord('item-5')">記録6</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>未実施</strong><p>この導入先について通信検証の保存済み証拠がありません。</p><p class="axis-scope">対象範囲：同じ導入先の通信のみ。別環境の結果を流用しません。</p><p class="evidence-links"><a href="#item-5" onclick="revealRecord('item-5')">記録6</a></p></div></section></div><div class="next-action"><h4>配布元の対応状況を確認する</h4><ol><li>アプリが最新版でも、同梱ソフトウェアが対策版に達していない場合があります。配布元の更新履歴・セキュリティ情報でeMudhraへの対応を確認します。</li><li>対応版が提供されている場合は、アプリを導入した方法で更新します。自分でビルドしたアプリは、対策済みの実行環境・ライブラリでビルドし直します。</li><li>最新版でも表示が続く場合は、配布元に対応版の提供予定・独自修正（バックポート）の有無を確認します。PC側のGo・Python・Javaだけを更新しても、アプリの同梱物は置き換わりません。</li><li>更新後に再診断し、同梱バージョンと判定を確認します。</li></ol></div><section class="missing-evidence"><h4>不足情報と次の確認</h4><ul><li><p>参考修正版 1.27.3 未満。配布元のバックポート有無も確認</p><p><strong>次の確認：</strong>配布元の対応状況を確認し、独自修正・バックポートの有無と更新先を確認してください。</p></li><li><p>探索の深さの上限: /example/Scanner.app/Contents/Resources/app.asar.unpacked/node_modules/dependency/deep/path</p><p><strong>次の確認：</strong>記載した根拠・対象を確認し、同じ条件で再診断してください。</p></li><li><p>アプリの実効CA・独自検証設定・実通信は未検査</p><p><strong>次の確認：</strong>記載した根拠・対象を確認し、同じ条件で再診断してください。</p></li><li><p>通信検証は未実施です。</p><p><strong>次の確認：</strong>この導入先の実効CA・検証設定と、利用する経路の拒否結果を確認してください。</p></li></ul></section><details class="inspection-data"><summary>検査データ・原記録</summary><section class="UPDATE" data-review="review" data-method="version" id="item-5"><h4>記録6：アプリ / Example Scanner（架空例）</h4><p>記録の判定：<span class="tag state-review">同梱Goが対策版未満</span></p><p>取得済みの同梱部品を再照合。go 1.27.2: 参考修正版 1.27.3 未満。配布元のバックポート有無も確認</p><ul><li>探索の深さの上限: /example/Scanner.app/Contents/Resources/app.asar.unpacked/node_modules/dependency/deep/path</li><li>アプリの実効CA・独自検証設定・実通信は未検査</li></ul><h5>同梱部品の検査ファイル</h5><div class="scroll"><table><thead><tr><th>部品</th><th>バージョン</th><th>結果</th><th>ファイル・観測内容</th></tr></thead><tbody><tr><td>同梱Go</td><td>1.27.2</td><td>対策版未満</td><td><code>/example/bin/scanner</code><p>参考修正版 1.27.3 未満。配布元のバックポート有無も確認</p></td></tr></tbody></table></div><dl class="data-list"><dt>検査対象</dt><dd>アプリ / Example Scanner（架空例）</dd><dt>対象の場所</dt><dd><code>/example/bin/scanner</code></dd><dt>検査方法</dt><dd>推定（バージョン）</dd><dt>検査範囲</dt><dd>同じ導入実体で取得した部品の版照合。実通信・独自CA設定は未検査。</dd></dl><a href="https://pkg.go.dev/vuln/GO-2026-6809" target="_blank" rel="noopener noreferrer">配布元の対応情報 ↗</a><h5>設定・パス（JSON）</h5><pre>{
+  &quot;application&quot;: true,
+  &quot;path&quot;: &quot;/example/bin/scanner&quot;,
+  &quot;coverage_state&quot;: &quot;partial&quot;,
+  &quot;version&quot;: &quot;1.27.2&quot;,
+  &quot;reference_floor&quot;: &quot;1.27.3&quot;,
+  &quot;inspections&quot;: [
+    {
+      &quot;component&quot;: &quot;go&quot;,
+      &quot;status&quot;: &quot;UPDATE&quot;,
+      &quot;method&quot;: &quot;version&quot;,
+      &quot;version&quot;: &quot;1.27.2&quot;,
+      &quot;reference_floor&quot;: &quot;1.27.3&quot;,
+      &quot;path&quot;: &quot;/example/bin/scanner&quot;,
+      &quot;detail&quot;: &quot;参考修正版 1.27.3 未満。配布元のバックポート有無も確認&quot;,
+      &quot;source&quot;: &quot;https://pkg.go.dev/vuln/GO-2026-6809&quot;,
+      &quot;captured_assessment&quot;: {
+        &quot;status&quot;: &quot;UPDATE&quot;,
+        &quot;reference_floor&quot;: &quot;1.27.3&quot;,
+        &quot;source&quot;: null
+      },
+      &quot;reassessed_at&quot;: &quot;2026-11-02&quot;
+    }
+  ],
+  &quot;uninspected&quot;: [
+    &quot;探索の深さの上限: /example/Scanner.app/Contents/Resources/app.asar.unpacked/node_modules/dependency/deep/path&quot;,
+    &quot;アプリの実効CA・独自検証設定・実通信は未検査&quot;
+  ],
+  &quot;release_review&quot;: false,
+  &quot;source&quot;: &quot;https://pkg.go.dev/vuln/GO-2026-6809&quot;
+}</pre></section></details></div></details></div></div></details></article></div></div><div class="result-group" data-result-group="checked" aria-labelledby="group-checked"><h2 id="group-checked">検査した範囲で問題なし（主分類） <span>1ツール</span></h2><div class="result-list"><article data-tool="Git" data-state="checked" data-states="checked" data-actions="checked"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">Git</span><span class="axis-summary"><span>版：版による判定は未実施</span><span>通信：検査先の証明書を拒否できた（実測）</span></span></span><span class="tool-statuses"><span class="action-badge action-checked">検査した範囲で問題なし</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="checked"><details class="result-record"><summary class="result-row"><span class="record-name">Git TLS</span><span class="tool-statuses"><span class="action-badge action-checked">検査した範囲で問題なし</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-11" onclick="revealRecord('item-11')">記録12</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>検査先の証明書を拒否できた（実測）</strong><p>通常サイトは疎通し、代表4経路を信頼エラーで拒否した例。</p><p class="axis-scope">対象範囲：検査したクライアントと接続先に限ります。</p><p class="evidence-links"><a href="#item-11" onclick="revealRecord('item-11')">記録12</a></p></div></section></div><details class="inspection-data"><summary>検査データ・原記録</summary><section class="REJECTED" data-review="complete" data-method="measured" id="item-11"><h4>記録12：Git TLS</h4><p>記録の判定：<span class="tag state-complete">検査先の証明書を拒否できた</span></p><p>通常サイトは疎通し、代表4経路を信頼エラーで拒否した例。</p><div class="scroll"><table><thead><tr><th>接続先</th><th>結果</th><th>観測内容</th></tr></thead><tbody><tr><td>通常サイト</td><td>接続できた</td><td>接続できた</td></tr><tr><td>emSign / CTあり</td><td>検査先の証明書を拒否できた</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>AAA経路 / CTあり</td><td>検査先の証明書を拒否できた</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>emSign / CTなし</td><td>検査先の証明書を拒否できた</td><td>この行は表示確認用の架空の観測です。</td></tr><tr><td>AAA経路 / CTなし</td><td>検査先の証明書を拒否できた</td><td>この行は表示確認用の架空の観測です。</td></tr></tbody></table></div><dl class="data-list"><dt>検査対象</dt><dd>Git TLS</dd><dt>検査方法</dt><dd>実測（通信）</dd><dt>検査範囲</dt><dd>検査したクライアントと接続先に限ります。</dd></dl><h5>設定・パス（JSON）</h5><pre>{}</pre></section></details></div></details></div></div></details></article></div></div><div class="result-group" data-result-group="not_found" aria-labelledby="group-not_found"><h2 id="group-not_found">見つからなかった対象（主分類） <span>1ツール</span></h2><div class="result-list"><article data-tool=".NET" data-state="not_found" data-states="not_found" data-actions="not_found"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">.NET</span><span class="axis-summary"><span>版：版による判定は未実施</span><span>通信：この項目では対象外</span></span></span><span class="tool-statuses"><span class="action-badge action-not_found">見つからなかった対象</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="not_found"><details class="result-record"><summary class="result-row"><span class="record-name">.NET</span><span class="tool-statuses"><span class="action-badge action-not_found">見つからなかった対象</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-20" onclick="revealRecord('item-20')">記録21</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>この項目では対象外</strong><p>探索結果・環境情報の項目です。</p><p class="axis-scope">対象範囲：同じ導入先の通信のみ。別環境の結果を流用しません。</p><p class="evidence-links"><a href="#item-20" onclick="revealRecord('item-20')">記録21</a></p></div></section></div><details class="inspection-data"><summary>検査データ・原記録</summary><section class="NOT_FOUND" data-review="scope" data-method="inventory" id="item-20"><h4>記録21：.NET</h4><p>記録の判定：<span class="tag state-scope">見つからない</span></p><p>指定した探索範囲で実行環境を検出しなかった例。</p><dl class="data-list"><dt>検査対象</dt><dd>.NET</dd><dt>検査方法</dt><dd>自動確認（探索）</dd><dt>検査範囲</dt><dd>今回探索した配置と検出した環境の確認。</dd></dl><h5>設定・パス（JSON）</h5><pre>{}</pre></section></details></div></details></div></div></details></article></div></div><div class="result-group" data-result-group="not_applicable" aria-labelledby="group-not_applicable"><h2 id="group-not_applicable">対象外（主分類） <span>1ツール</span></h2><div class="result-list"><article data-tool="別OSのツール（架空例）" data-state="not_applicable" data-states="not_applicable" data-actions="not_applicable"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">別OSのツール（架空例）</span><span class="axis-summary"><span>版：版による判定は未実施</span><span>通信：この項目では対象外</span></span></span><span class="tool-statuses"><span class="action-badge action-not_applicable">対象外</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="not_applicable"><details class="result-record"><summary class="result-row"><span class="record-name">別OSのツール（架空例）</span><span class="tool-statuses"><span class="action-badge action-not_applicable">対象外</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-21" onclick="revealRecord('item-21')">記録22</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>この項目では対象外</strong><p>探索結果・環境情報の項目です。</p><p class="axis-scope">対象範囲：同じ導入先の通信のみ。別環境の結果を流用しません。</p><p class="evidence-links"><a href="#item-21" onclick="revealRecord('item-21')">記録22</a></p></div></section></div><details class="inspection-data"><summary>検査データ・原記録</summary><section class="NOT_APPLICABLE" data-review="scope" data-method="inventory" id="item-21"><h4>記録22：別OSのツール（架空例）</h4><p>記録の判定：<span class="tag state-scope">このOSでは対象外</span></p><p>このOSでは対象外の例。</p><dl class="data-list"><dt>検査対象</dt><dd>別OSのツール（架空例）</dd><dt>検査方法</dt><dd>自動確認（探索）</dd><dt>検査範囲</dt><dd>今回探索した配置と検出した環境の確認。</dd></dl><h5>設定・パス（JSON）</h5><pre>{}</pre></section></details></div></details></div></div></details></article></div></div><div class="result-group" data-result-group="info" aria-labelledby="group-info"><h2 id="group-info">環境情報（主分類） <span>1ツール</span></h2><div class="result-list"><article data-tool="インストール済みツールの探索" data-state="info" data-states="info" data-actions="info"><details class="tool-record"><summary class="tool-row"><span class="tool-heading"><span class="tool-name">インストール済みツールの探索</span><span class="axis-summary"><span>版：版による判定は未実施</span><span>通信：この項目では対象外</span></span></span><span class="tool-statuses"><span class="action-badge action-info">環境情報</span></span></summary><div class="tool-checks"><h3>導入先・検査対象 <span>1件</span></h3><div class="installation-result" data-action="info"><details class="result-record"><summary class="result-row"><span class="record-name">インストール済みツールの探索</span><span class="tool-statuses"><span class="action-badge action-info">環境情報</span></span></summary><div class="record-details"><div class="assessment-axes"><section class="assessment-axis" data-axis="version"><h4>版の判定</h4><div class="axis-finding"><strong>版による判定は未実施</strong><p class="axis-version">本体：未取得</p><p class="axis-scope">対象範囲：保存済み記録の範囲。</p><p class="evidence-links"><a href="#item-14" onclick="revealRecord('item-14')">記録15</a></p></div></section><section class="assessment-axis" data-axis="communication"><h4>通信の検証</h4><div class="axis-finding"><strong>この項目では対象外</strong><p>探索結果・環境情報の項目です。</p><p class="axis-scope">対象範囲：同じ導入先の通信のみ。別環境の結果を流用しません。</p><p class="evidence-links"><a href="#item-14" onclick="revealRecord('item-14')">記録15</a></p></div></section><section class="assessment-axis" data-axis="configuration"><h4>設定・保存データ</h4><div class="axis-finding"><strong>保存データ・配置のみ確認</strong><p>開発ツールの配置を確認した例。</p><p class="axis-scope">対象範囲：今回探索した配置と検出した環境の確認。</p><p class="evidence-links"><a href="#item-14" onclick="revealRecord('item-14')">記録15</a></p></div></section></div><details class="inspection-data"><summary>検査データ・原記録</summary><section class="CHECKED" data-review="complete" data-method="inventory" id="item-14"><h4>記録15：インストール済みツールの探索</h4><p>記録の判定：<span class="tag state-complete">設定・配置を確認済み</span></p><p>開発ツールの配置を確認した例。</p><dl class="data-list"><dt>検査対象</dt><dd>インストール済みツールの探索</dd><dt>検査方法</dt><dd>自動確認（探索）</dd><dt>検査範囲</dt><dd>今回探索した配置と検出した環境の確認。</dd></dl><h5>設定・パス（JSON）</h5><pre>{}</pre></section></details></div></details></div></div></details></article></div></div></div>
+<footer class="report-files"></footer>
+</main><script>'use strict';
+let activeFilter = 'all';
+function revealRecord(id) {
+  let element = document.getElementById(id);
+  while (element) {
+    if (element.tagName === 'DETAILS') element.open = true;
+    element = element.parentElement;
+  }
+}
+function filterReports(group) {
+  activeFilter = group;
+  const query = document.getElementById('record-search').value.trim().toLocaleLowerCase();
+  let shown = 0;
+  const cards = document.querySelectorAll('article[data-tool]');
+  cards.forEach(x => {
+    const actions = (x.dataset.actions || x.dataset.state || '').split(/\s+/);
+    const outside = group !== 'all' && !actions.includes(group);
+    x.hidden = outside || !x.textContent.toLocaleLowerCase().includes(query);
+    if (!x.hidden) shown++;
+  });
+  document.querySelectorAll('[data-result-group]').forEach(section => {
+    const visible = Array.from(section.querySelectorAll('article[data-tool]')).filter(row => !row.hidden).length;
+    section.hidden = visible === 0;
+    section.querySelector('h2 span').textContent = `${visible}ツール`;
+  });
+  document.querySelectorAll('button[data-filter]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.filter === group)));
+  document.getElementById('result-count').textContent = `${shown} / ${cards.length}ツール`;
+  document.getElementById('empty-results').hidden = shown > 0;
+}
+if (typeof document !== 'undefined') {
+  filterReports('all');
+  let printDetails = [];
+  let printHidden = [];
+  window.addEventListener('beforeprint', () => {
+    printHidden = Array.from(document.querySelectorAll('[hidden]'));
+    printHidden.forEach(x => x.hidden = false);
+    printDetails = Array.from(document.querySelectorAll('details')).filter(x => !x.open);
+    printDetails.forEach(x => x.open = true);
+    document.querySelectorAll('[data-result-group]').forEach(section => {
+      section.querySelector('h2 span').textContent = `${section.querySelectorAll('article[data-tool]').length}ツール`;
+    });
+  });
+  window.addEventListener('afterprint', () => {
+    printDetails.forEach(x => x.open = false);
+    printHidden.forEach(x => x.hidden = true);
+    filterReports(activeFilter);
+  });
+}
+</script></body></html>

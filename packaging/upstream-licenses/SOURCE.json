@@ -1,0 +1,5 @@
+{
+  "source": "https://github.com/astral-sh/python-build-standalone/archive/refs/tags/20261026.tar.gz",
+  "sha256": "68de4af184e78f6338a91ddb48570da92cbdc24138ff44527d58a1e23a4e86e9",
+  "note": "Upstream license collection; includes licenses for optional dependencies not present on every platform."
+}

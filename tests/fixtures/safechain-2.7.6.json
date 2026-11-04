@@ -1,0 +1,69 @@
+[
+  {
+    "name": "アプリ / Safe Chain [/fixture/.safe-chain/bin/safe-chain]",
+    "status": "MANUAL",
+    "assessment_method": "manual",
+    "detail": "合成データによる回帰ケース。",
+    "action": "対象の導入先と未確認事項を確認してください。",
+    "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+    "metadata": {
+      "tool_id": "safe-chain",
+      "tool_name": "Safe Chain",
+      "application": true,
+      "path": "/fixture/.safe-chain/bin/safe-chain",
+      "discovered_paths": [
+        "/fixture/.safe-chain/bin/safe-chain"
+      ],
+      "coverage_state": "uninspected",
+      "inspections": [],
+      "security_tool": {
+        "version": "1.5.26",
+        "version_source": "本体内のパッケージ情報",
+        "runtime": "不明"
+      },
+      "uninspected": [
+        "普段の設定・外部通信は未確認"
+      ],
+      "fixture_origin": "synthetic-v1"
+    },
+    "samples": []
+  },
+  {
+    "name": "Safe Chain / 証明書の接続テスト",
+    "status": "MANUAL",
+    "assessment_method": "measured",
+    "detail": "合成データによる回帰ケース。",
+    "action": "対象の導入先と未確認事項を確認してください。",
+    "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+    "metadata": {
+      "tool_id": "safe-chain",
+      "tool_name": "Safe Chain",
+      "executable": "/fixture/.safe-chain/bin/safe-chain",
+      "probe": "safechain_synthetic_tls",
+      "synthetic_tls_state": "measured",
+      "synthetic_tls_cases": {
+        "trusted": "accepted",
+        "untrusted": "rejected",
+        "mismatch": "rejected"
+      },
+      "fixture_origin": "synthetic-v1"
+    },
+    "samples": []
+  },
+  {
+    "name": "Safe Chain / 固有の通信",
+    "status": "MANUAL",
+    "assessment_method": "manual",
+    "detail": "普段の設定を使った通信は未検査です。",
+    "action": "対象の導入先と未確認事項を確認してください。",
+    "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+    "metadata": {
+      "tool_id": "safe-chain",
+      "tool_name": "Safe Chain",
+      "executable": "/fixture/.safe-chain/bin/safe-chain",
+      "p2_coverage": true,
+      "fixture_origin": "synthetic-v1"
+    },
+    "samples": []
+  }
+]

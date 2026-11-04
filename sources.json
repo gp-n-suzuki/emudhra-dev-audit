@@ -1,0 +1,314 @@
+{
+  "reference_date": "2026-10-29",
+  "app_reference_date": "2026-10-27",
+  "electron_branches": {
+    "42": "42.11.16",
+    "43": "43.8.1",
+    "44": "44.9.1"
+  },
+  "sources": [
+    {
+      "title": "Electron eMudhra mitigation advisory",
+      "url": "https://github.com/electron/electron/security/advisories/GHSA-jr5w-w6x2-84p9",
+      "verified_on": "2026-10-27"
+    },
+    {
+      "title": "Go executable build info format",
+      "url": "https://pkg.go.dev/debug/buildinfo",
+      "verified_on": "2026-10-27"
+    },
+    {
+      "title": "Incident and test endpoints",
+      "url": "https://emudhra.we-have-a-problem.com/",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Python security announcement",
+      "url": "https://discuss.python.org/t/information-for-python-users-regarding-emudhra-emsign-ca-certificate-security-incident/109576",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "pip HTTPS certificates",
+      "url": "https://pip.pypa.io/en/stable/topics/https-certificates/",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "curl TLS verification",
+      "url": "https://curl.se/docs/sslcerts.html",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Git configuration",
+      "url": "https://git-scm.com/docs/git-config",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Node.js security release",
+      "url": "https://nodejs.org/en/blog/vulnerability/october-2026-security-releases",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Node.js CLI",
+      "url": "https://nodejs.org/api/cli.html",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "JSSE",
+      "url": "https://docs.oracle.com/en/java/javase/25/security/java-secure-socket-extension-jsse-reference-guide.html",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Oracle JDK response",
+      "url": "https://ops.java/emudhra",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Docker registry certificates",
+      "url": "https://docs.docker.com/engine/security/certificates/",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Docker exec",
+      "url": "https://docs.docker.com/reference/cli/docker/container/exec/",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Fetch standard",
+      "url": "https://fetch.spec.whatwg.org/",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Go security release",
+      "url": "https://groups.google.com/g/golang-announce/c/66pojueaQek",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Go release support policy",
+      "url": "https://go.dev/doc/devel/release#policy",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Azul Zulu blocklist guidance",
+      "url": "https://docs.azul.com/core/emudhra-workaround",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Affected intermediate certificate fingerprints",
+      "url": "https://emudhra.we-have-a-problem.com/impacted-intermediates.json",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "npm configuration",
+      "url": "https://docs.npmjs.com/cli/v11/using-npm/config/",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "PHP curl verification information",
+      "url": "https://www.php.net/curl_getinfo",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "libcurl verification result",
+      "url": "https://curl.se/libcurl/c/CURLINFO_SSL_VERIFYRESULT.html",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "macOS native trust evaluation",
+      "url": "https://developer.apple.com/documentation/security/sectrustevaluatewitherror(_:_:)",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "libcurl netrc handling",
+      "url": "https://curl.se/libcurl/c/CURLOPT_NETRC.html",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Docker Desktop security release notes",
+      "url": "https://docs.docker.com/desktop/release-notes/#4962",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Rustup eMudhra dependency update",
+      "url": "https://blog.rust-lang.org/2026/10/20/Rustup-1.29.2/",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Rustup automatic installation control",
+      "url": "https://rust-lang.github.io/rustup/devel/environment-variables.html",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Chromium CRLSet operation",
+      "url": "https://www.chromium.org/Home/chromium-security/crlsets/",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Chromium CRLSet file format",
+      "url": "https://chromium.googlesource.com/chromium/src/+/HEAD/net/cert/crl_set.cc",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "PHP CA locations",
+      "url": "https://www.php.net/manual/en/function.openssl-get-cert-locations.php",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Affected root certificate fingerprints",
+      "url": "https://emudhra.we-have-a-problem.com/roots.json",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Find installed .NET runtimes",
+      "url": "https://learn.microsoft.com/en-us/dotnet/core/install/how-to-detect-installed-versions",
+      "verified_on": "2026-10-23"
+    },
+    {
+      "title": "Bun eMudhra security advisory",
+      "url": "https://github.com/oven-sh/bun/security/advisories/GHSA-26q8-h657-pf84",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "Deno 2.9.8 TLS security release",
+      "url": "https://github.com/denoland/deno/releases/tag/v2.9.8",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "Dart / Flutter eMudhra security advisory",
+      "url": "https://github.com/dart-lang/sdk/security/advisories/GHSA-frr6-h895-5pxp",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "Perl Mozilla::CA 20261020 release",
+      "url": "https://metacpan.org/release/LWP/Mozilla-CA-20261020",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "Erlang certifi 2.18.0 changelog",
+      "url": "https://certifi.hexdocs.pm/2.18.0/changelog.html",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "Elixir castore 1.0.22 release",
+      "url": "https://hex.pm/packages/castore/1.0.22",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "Elixir castore NSS root update",
+      "url": "https://github.com/elixir-mint/castore/commit/27997a236079964f6a59fc61c97d56295a9d9561",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "Mozilla NSS root response",
+      "url": "https://blog.mozilla.org/security/2026/10/20/protecting-firefox-users-following-the-compromise-of-emudhra-intermediate-certificates/",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "Safe Chain implementation and shell integration",
+      "url": "https://github.com/AikidoSec/safe-chain",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "OSV-Scanner",
+      "url": "https://github.com/google/osv-scanner",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "Cargo configuration",
+      "url": "https://doc.rust-lang.org/cargo/reference/config.html",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "GNU Wget manual",
+      "url": "https://www.gnu.org/software/wget/manual/wget.html",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "HTTPie CLI documentation",
+      "url": "https://httpie.io/docs/cli",
+      "verified_on": "2026-10-28"
+    },
+    {
+      "title": "Codex 0.164.0 stable release",
+      "url": "https://github.com/openai/codex/releases/tag/rust-v0.164.0",
+      "verified_on": "2026-10-29",
+      "scope": "各OSの公式npm配布、0系列安定版、バージョン照合"
+    },
+    {
+      "title": "Codex rustls and webpki dependency changes",
+      "url": "https://github.com/openai/codex/pull/55616",
+      "verified_on": "2026-10-29",
+      "scope": "Codex Rust TLS依存の更新範囲"
+    },
+    {
+      "title": "CPython incident advisory",
+      "url": "https://discuss.python.org/t/information-for-python-users-regarding-emudhra-emsign-ca-certificate-security-incident/109576",
+      "verified_on": "2026-10-29",
+      "scope": "各OSの公式CPython版、3.11–3.15の標準TLS"
+    },
+    {
+      "title": "Go security release",
+      "url": "https://groups.google.com/g/golang-announce/c/66pojueaQek",
+      "verified_on": "2026-10-29",
+      "scope": "各OSの公式Go 1.26および1.27系列"
+    },
+    {
+      "title": "rustls-webpki 0.103.16",
+      "url": "https://github.com/rustls/webpki/releases/tag/v%2F0.103.16",
+      "verified_on": "2026-10-29",
+      "scope": "中間CA鍵の拒否、採用するアプリは個別"
+    },
+    {
+      "title": "webpki-roots releases",
+      "url": "https://github.com/rustls/webpki-roots/releases",
+      "verified_on": "2026-10-29",
+      "scope": "同梱root情報、各アプリの依存関係"
+    },
+    {
+      "title": "Electron incident advisory",
+      "url": "https://github.com/electron/electron/security/advisories/GHSA-jr5w-w6x2-84p9",
+      "verified_on": "2026-10-29",
+      "scope": "各OSのElectron 42–44系列; アプリ固有修正は別"
+    },
+    {
+      "title": "uv incident advisory",
+      "url": "https://github.com/astral-sh/uv/security/advisories/GHSA-hq85-5cpj-mr62",
+      "verified_on": "2026-10-29",
+      "scope": "各OSのuv 0.13同梱CA; 独自CAは別"
+    },
+    {
+      "title": "Python standalone 20261026",
+      "url": "https://github.com/astral-sh/python-build-standalone/releases/tag/20261026",
+      "verified_on": "2026-10-29",
+      "scope": "診断本体用CPython 3.13.18、6 OS/CPU配布"
+    },
+    {
+      "title": "Claude Code changelog 2.1.312",
+      "url": "https://github.com/anthropics/claude-code/blob/v2.1.312/CHANGELOG.md",
+      "verified_on": "2026-10-29",
+      "scope": "対応版を特定する公式記載は未確認"
+    }
+  ],
+  "minimum_versions": {
+    "pip": "26.2.2",
+    "certifi": "2026.10.19",
+    "uv": "0.13.4",
+    "rustls-webpki": "0.103.16",
+    "webpki-roots": "1.0.10",
+    "webpki-root-certs": "1.0.10",
+    "rustup": "1.29.2",
+    "docker-desktop": "4.96.2",
+    "nss": "3.131.1"
+  },
+  "node_branches": {
+    "22": "22.23.4",
+    "24": "24.22.1",
+    "26": "26.12.1"
+  },
+  "go_branches": {
+    "1.26": "1.26.10",
+    "1.27": "1.27.3"
+  },
+  "note": "Static snapshot, not a live vulnerability feed. Backports require vendor verification.",
+  "evidence_note": "Docker Desktop fixes are staged. CRLSet checks inspect saved data, not the active browser. Static evidence never substitutes for TLS probes.",
+  "language_reference_date": "2026-10-28"
+}

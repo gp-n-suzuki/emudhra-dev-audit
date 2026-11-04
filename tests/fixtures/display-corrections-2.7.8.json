@@ -1,0 +1,1781 @@
+[
+  {
+    "display_number": 10,
+    "record": {
+      "name": "Bundler / gem source（診断用設定）",
+      "status": "ACTION",
+      "assessment_method": "measured",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "診断用設定: 同一実体と合成データのみ。普段の設定・実効CA・別接続先は未確認。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "executable": "/fixture/system/bin/bundle",
+        "runtime_executable": "/fixture/system/bin/ruby",
+        "probe": "synthetic_bundle_lock",
+        "diagnostic_observation": "connection_error",
+        "connection_evidence": [
+          {
+            "target": "通常サイト",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-0.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 0,
+            "tls_verified": true,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "ad582503430a93c6344abc39ba14033a88de6e8c762f56c20cda7793b9b2683c"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "emSign / CTあり",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-1.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 0,
+            "tls_verified": true,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "0bbc75d9c3928ee96d94fcfe5c1d6bb1202d109e7985bf646e4fafde46718e15"
+            ],
+            "target_chain_verified": true
+          },
+          {
+            "target": "AAA経路 / CTあり",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-2.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 0,
+            "tls_verified": true,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "6a3753dd607f4bc5539d6ae650a22767b595f58f3dbc1ab331d9fde1232a261f"
+            ],
+            "target_chain_verified": true
+          }
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "ACTION",
+          "detail": "合成fixture: ACTION"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "ACTION",
+          "detail": "合成fixture: ACTION"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 30,
+    "record": {
+      "name": "アプリ / Go [/fixture/go/bin/go]",
+      "status": "UPDATE",
+      "assessment_method": "version",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "go",
+        "tool_name": "Go",
+        "application": true,
+        "path": "/fixture/go/bin/go",
+        "discovered_paths": [
+          "/fixture/go/bin/go"
+        ],
+        "coverage_state": "partial",
+        "uninspected": [
+          "実通信は未検査"
+        ],
+        "reference_floor": "1.26.10",
+        "inspections": [
+          {
+            "component": "go",
+            "status": "UPDATE",
+            "method": "version",
+            "version": "1.23.0",
+            "reference_floor": "1.26.10",
+            "path": "/fixture/go/bin/go",
+            "detail": "参考修正版1.26.10未満。"
+          }
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 38,
+    "record": {
+      "name": "ホスト / curl TLS [/fixture/system/bin/curl]",
+      "status": "REJECTED",
+      "assessment_method": "measured",
+      "detail": "合成fixtureによる通信状態。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "curl",
+        "tool_name": "curl",
+        "executable": "/fixture/system/bin/curl",
+        "version": [
+          "curl 8.1.0 (synthetic)"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 39,
+    "record": {
+      "name": "ホスト / curl TLS [/fixture/managed/packages/curl/bin/curl]",
+      "status": "REJECTED",
+      "assessment_method": "measured",
+      "detail": "合成fixtureによる通信状態。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "curl",
+        "tool_name": "curl",
+        "executable": "/fixture/managed/packages/curl/bin/curl",
+        "version": [
+          "curl 8.2.0 (synthetic)"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 40,
+    "record": {
+      "name": "ホスト / Git TLS [/fixture/system/bin/git]",
+      "status": "REJECTED",
+      "assessment_method": "measured",
+      "detail": "合成fixtureによる通信状態。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "git",
+        "tool_name": "Git",
+        "executable": "/fixture/system/bin/git",
+        "version": "git version 2.54.0 (synthetic)",
+        "repository": "/fixture/empty-git",
+        "http.sslVerify": true,
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 47,
+    "record": {
+      "name": "ホスト / Node.js",
+      "status": "INFERRED_OK",
+      "assessment_method": "version",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "node",
+        "tool_name": "Node.js",
+        "executable": "/fixture/shims/node",
+        "resolved_executable": "/fixture/node/bin/node",
+        "execution_context": "ホスト",
+        "version": "v26.12.1",
+        "reference_floor": "26.12.1",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 48,
+    "record": {
+      "name": "ホスト / Node.js TLS [/fixture/shims/node]",
+      "status": "REJECTED",
+      "assessment_method": "measured",
+      "detail": "合成fixtureによる通信状態。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "node",
+        "tool_name": "Node.js",
+        "executable": "/fixture/shims/node",
+        "version": "v26.12.1",
+        "resolved_executable": "/fixture/node/bin/node",
+        "execution_context": "ホスト",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 49,
+    "record": {
+      "name": "ホスト / Node.js TLS [/fixture/shims/node]",
+      "status": "REJECTED",
+      "assessment_method": "measured",
+      "detail": "合成fixtureによる通信状態。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "node",
+        "tool_name": "Node.js",
+        "executable": "/fixture/shims/node",
+        "version": "v26.12.1",
+        "resolved_executable": "/fixture/node/bin/node",
+        "execution_context": "ホスト",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 62,
+    "record": {
+      "name": "ホスト / Ruby TLS [/fixture/managed/bin/ruby]",
+      "status": "REJECTED",
+      "assessment_method": "measured",
+      "detail": "合成fixtureによる通信状態。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "ruby",
+        "tool_name": "Ruby",
+        "executable": "/fixture/managed/bin/ruby",
+        "version": "ruby 4.0.0 (synthetic)",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 63,
+    "record": {
+      "name": "ホスト / PHP TLS [/fixture/managed/bin/php]",
+      "status": "INFERRED_REJECTED",
+      "assessment_method": "corroborated",
+      "detail": "合成fixtureによる通信状態。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "php",
+        "tool_name": "PHP",
+        "executable": "/fixture/managed/bin/php",
+        "version": "PHP 8.5.0 (synthetic)",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "INFERRED_REJECTED",
+          "detail": "合成fixture: INFERRED_REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "INFERRED_REJECTED",
+          "detail": "合成fixture: INFERRED_REJECTED"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "INFERRED_REJECTED",
+          "detail": "合成fixture: INFERRED_REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "INFERRED_REJECTED",
+          "detail": "合成fixture: INFERRED_REJECTED"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 65,
+    "record": {
+      "name": "RubyGems / gem source（診断用設定）",
+      "status": "REJECTED",
+      "assessment_method": "measured",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "診断用設定: 同一実体と合成データのみ。普段の設定・実効CA・別接続先は未確認。",
+      "metadata": {
+        "tool_id": "rubygems",
+        "tool_name": "RubyGems",
+        "executable": "/fixture/managed/bin/gem",
+        "runtime_executable": "/fixture/managed/bin/ruby",
+        "probe": "synthetic_gem_search",
+        "diagnostic_observation": "connection_error",
+        "connection_evidence": [
+          {
+            "target": "通常サイト",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-0.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 0,
+            "tls_verified": true,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "ad582503430a93c6344abc39ba14033a88de6e8c762f56c20cda7793b9b2683c"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "emSign / CTあり",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-1.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 20,
+            "tls_verified": false,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "0bbc75d9c3928ee96d94fcfe5c1d6bb1202d109e7985bf646e4fafde46718e15"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "AAA経路 / CTあり",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-2.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 20,
+            "tls_verified": false,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "6a3753dd607f4bc5539d6ae650a22767b595f58f3dbc1ab331d9fde1232a261f"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "emSign / CTなし",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-3.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 20,
+            "tls_verified": false,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "6ff9268fb1a7f5085ef71ea951c071f1105ae3bdbf41233e21aa73b15845f1d2"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "AAA経路 / CTなし",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-4.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 20,
+            "tls_verified": false,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "87fc65373bd3edb90fdb3b997ba37c03358ebef0c012f791111622daa2729987"
+            ],
+            "target_chain_verified": false
+          }
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 92,
+    "record": {
+      "name": "アプリ / Node.js [/fixture/manager/bin/manager]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "node",
+        "tool_name": "Node.js",
+        "application": true,
+        "path": "/fixture/manager/bin/manager",
+        "discovered_paths": [
+          "/fixture/manager/bin/manager",
+          "/fixture/shims/node",
+          "/fixture/node/bin/node"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 120,
+    "record": {
+      "name": "アプリ / wget [/fixture/managed/packages/wget/bin/wget]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "wget",
+        "tool_name": "wget",
+        "application": true,
+        "path": "/fixture/managed/packages/wget/bin/wget",
+        "discovered_paths": [
+          "/fixture/managed/packages/wget/bin/wget",
+          "/fixture/managed/bin/wget"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 129,
+    "record": {
+      "name": "アプリ / Bundler [/fixture/managed/packages/ruby-a/bin/bundle]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "application": true,
+        "path": "/fixture/managed/packages/ruby-a/bin/bundle",
+        "discovered_paths": [
+          "/fixture/managed/packages/ruby-a/bin/bundle",
+          "/fixture/managed/bin/bundle"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 130,
+    "record": {
+      "name": "アプリ / PHP [/fixture/managed/packages/php/bin/php]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "php",
+        "tool_name": "PHP",
+        "application": true,
+        "path": "/fixture/managed/packages/php/bin/php",
+        "discovered_paths": [
+          "/fixture/managed/packages/php/bin/php",
+          "/fixture/managed/bin/php"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 135,
+    "record": {
+      "name": "アプリ / Bundler [/fixture/managed/packages/ruby-a/bin/bundler]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "application": true,
+        "path": "/fixture/managed/packages/ruby-a/bin/bundler",
+        "discovered_paths": [
+          "/fixture/managed/packages/ruby-a/bin/bundler",
+          "/fixture/managed/bin/bundler"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 136,
+    "record": {
+      "name": "アプリ / Ruby [/fixture/managed/packages/ruby-a/bin/ruby]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "ruby",
+        "tool_name": "Ruby",
+        "application": true,
+        "path": "/fixture/managed/packages/ruby-a/bin/ruby",
+        "discovered_paths": [
+          "/fixture/managed/packages/ruby-a/bin/ruby",
+          "/fixture/managed/bin/ruby"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 137,
+    "record": {
+      "name": "アプリ / RubyGems [/fixture/managed/packages/ruby-a/bin/gem]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "rubygems",
+        "tool_name": "RubyGems",
+        "application": true,
+        "path": "/fixture/managed/packages/ruby-a/bin/gem",
+        "discovered_paths": [
+          "/fixture/managed/packages/ruby-a/bin/gem",
+          "/fixture/managed/bin/gem"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 163,
+    "record": {
+      "name": "アプリ / Bundler [/fixture/system/bin/bundle]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "application": true,
+        "path": "/fixture/system/bin/bundle",
+        "discovered_paths": [
+          "/fixture/system/bin/bundle"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 165,
+    "record": {
+      "name": "アプリ / curl [/fixture/system/bin/curl]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "curl",
+        "tool_name": "curl",
+        "application": true,
+        "path": "/fixture/system/bin/curl",
+        "discovered_paths": [
+          "/fixture/system/bin/curl"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 171,
+    "record": {
+      "name": "アプリ / Bundler [/fixture/system/bin/bundler]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "application": true,
+        "path": "/fixture/system/bin/bundler",
+        "discovered_paths": [
+          "/fixture/system/bin/bundler"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 172,
+    "record": {
+      "name": "アプリ / Ruby [/fixture/system/bin/ruby]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "ruby",
+        "tool_name": "Ruby",
+        "application": true,
+        "path": "/fixture/system/bin/ruby",
+        "discovered_paths": [
+          "/fixture/system/bin/ruby"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 173,
+    "record": {
+      "name": "アプリ / Git [/fixture/system/bin/git]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "git",
+        "tool_name": "Git",
+        "application": true,
+        "path": "/fixture/system/bin/git",
+        "discovered_paths": [
+          "/fixture/system/bin/git"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 174,
+    "record": {
+      "name": "アプリ / RubyGems [/fixture/system/bin/gem]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "rubygems",
+        "tool_name": "RubyGems",
+        "application": true,
+        "path": "/fixture/system/bin/gem",
+        "discovered_paths": [
+          "/fixture/system/bin/gem"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 202,
+    "record": {
+      "name": "アプリ / curl [/fixture/managed/packages/curl/bin/curl]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "curl",
+        "tool_name": "curl",
+        "application": true,
+        "path": "/fixture/managed/packages/curl/bin/curl",
+        "discovered_paths": [
+          "/fixture/managed/packages/curl/bin/curl"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 207,
+    "record": {
+      "name": "アプリ / Bundler [/fixture/second/bin/bundle]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "application": true,
+        "path": "/fixture/second/bin/bundle",
+        "discovered_paths": [
+          "/fixture/second/bin/bundle"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 208,
+    "record": {
+      "name": "アプリ / Bundler [/fixture/second/bin/bundler]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "application": true,
+        "path": "/fixture/second/bin/bundler",
+        "discovered_paths": [
+          "/fixture/second/bin/bundler"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 210,
+    "record": {
+      "name": "アプリ / RubyGems [/fixture/second/bin/gem]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "rubygems",
+        "tool_name": "RubyGems",
+        "application": true,
+        "path": "/fixture/second/bin/gem",
+        "discovered_paths": [
+          "/fixture/second/bin/gem"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 211,
+    "record": {
+      "name": "アプリ / curl [/fixture/second/bin/curl]",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "このツールの通信は未確認。導入を確認しました。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "curl",
+        "tool_name": "curl",
+        "application": true,
+        "path": "/fixture/second/bin/curl",
+        "discovered_paths": [
+          "/fixture/second/bin/curl"
+        ],
+        "discovery_sources": [
+          "synthetic fixture"
+        ],
+        "coverage_state": "uninspected",
+        "inspections": [],
+        "uninspected": [
+          "TLS構成と修正版の照合に必要な情報を取得できません（通信の有無も未確認）",
+          "アプリの実効CA・独自検証設定・実通信は未検査"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 220,
+    "record": {
+      "name": "ホスト / curl TLS [/fixture/second/bin/curl]",
+      "status": "UNKNOWN",
+      "assessment_method": "measured",
+      "detail": "[Errno 86] Bad CPU type in executable: /fixture/second/bin/curl",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "curl",
+        "tool_name": "curl",
+        "executable": "/fixture/second/bin/curl",
+        "version": [
+          "[Errno 86] Bad CPU type in executable: /fixture/second/bin/curl"
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 244,
+    "record": {
+      "name": "ホスト / wget TLS [/fixture/managed/bin/wget]",
+      "status": "UNKNOWN",
+      "assessment_method": "measured",
+      "detail": "合成fixtureによる通信状態。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "wget",
+        "tool_name": "wget",
+        "executable": "/fixture/managed/bin/wget",
+        "version": "GNU Wget 1.25.0 (synthetic)",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 246,
+    "record": {
+      "name": "ホスト / Ruby TLS [/fixture/system/bin/ruby]",
+      "status": "UNKNOWN",
+      "assessment_method": "measured",
+      "detail": "合成fixtureによる通信状態。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "ruby",
+        "tool_name": "Ruby",
+        "executable": "/fixture/system/bin/ruby",
+        "version": "ruby 2.6.0 (synthetic)",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "合成fixture: UNKNOWN"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 253,
+    "record": {
+      "name": "Go TLS [/fixture/go/bin/go]",
+      "status": "UNKNOWN",
+      "assessment_method": "inventory",
+      "detail": "[Errno 86] Bad CPU type in executable: /fixture/go/bin/go",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "go",
+        "tool_name": "Go",
+        "executable": "/fixture/go/bin/go",
+        "execution_context": "ホスト",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 270,
+    "record": {
+      "name": "RubyGems / gem source（普段の設定）",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "認証情報の送信を避けるため、普段使う設定での通信は確認していません。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "診断用設定: 同一実体と合成データのみ。普段の設定・実効CA・別接続先は未確認。",
+      "metadata": {
+        "tool_id": "rubygems",
+        "tool_name": "RubyGems",
+        "executable": "/fixture/managed/bin/gem",
+        "runtime_executable": "/fixture/managed/bin/ruby",
+        "probe": "synthetic_gem_search",
+        "diagnostic_observation": "connection_error",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 274,
+    "record": {
+      "name": "Bundler / gem source（診断用設定）",
+      "status": "UNKNOWN",
+      "assessment_method": "measured",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "診断用設定: 同一実体と合成データのみ。普段の設定・実効CA・別接続先は未確認。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "executable": "/fixture/managed/bin/bundle",
+        "runtime_executable": "/fixture/managed/bin/ruby",
+        "probe": "synthetic_bundle_lock",
+        "diagnostic_observation": "connection_error",
+        "connection_evidence": [
+          {
+            "target": "通常サイト",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-0.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 0,
+            "tls_verified": true,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "ad582503430a93c6344abc39ba14033a88de6e8c762f56c20cda7793b9b2683c"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "emSign / CTあり",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-1.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 20,
+            "tls_verified": false,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "0bbc75d9c3928ee96d94fcfe5c1d6bb1202d109e7985bf646e4fafde46718e15"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "AAA経路 / CTあり",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-2.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 20,
+            "tls_verified": false,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "6a3753dd607f4bc5539d6ae650a22767b595f58f3dbc1ab331d9fde1232a261f"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "AAA経路 / CTなし",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-4.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 20,
+            "tls_verified": false,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "87fc65373bd3edb90fdb3b997ba37c03358ebef0c012f791111622daa2729987"
+            ],
+            "target_chain_verified": false
+          }
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "TIMEOUT: synthetic fixture\nRetrying fetcher due to error (2/4): Bundler::Fetcher::CertificateFailureError at https://retry.example.invalid/"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 275,
+    "record": {
+      "name": "Bundler / gem source（普段の設定）",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "認証情報の送信を避けるため、普段使う設定での通信は確認していません。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "診断用設定: 同一実体と合成データのみ。普段の設定・実効CA・別接続先は未確認。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "executable": "/fixture/managed/bin/bundle",
+        "runtime_executable": "/fixture/managed/bin/ruby",
+        "probe": "synthetic_bundle_lock",
+        "diagnostic_observation": "connection_error",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 276,
+    "record": {
+      "name": "Bundler / gem source（診断用設定）",
+      "status": "UNKNOWN",
+      "assessment_method": "measured",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "診断用設定: 同一実体と合成データのみ。普段の設定・実効CA・別接続先は未確認。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "executable": "/fixture/managed/bin/bundler",
+        "runtime_executable": "/fixture/managed/bin/ruby",
+        "probe": "synthetic_bundle_lock",
+        "diagnostic_observation": "connection_error",
+        "connection_evidence": [
+          {
+            "target": "通常サイト",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-0.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 0,
+            "tls_verified": true,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "ad582503430a93c6344abc39ba14033a88de6e8c762f56c20cda7793b9b2683c"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "emSign / CTあり",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-1.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 20,
+            "tls_verified": false,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "0bbc75d9c3928ee96d94fcfe5c1d6bb1202d109e7985bf646e4fafde46718e15"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "AAA経路 / CTあり",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-2.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 20,
+            "tls_verified": false,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "6a3753dd607f4bc5539d6ae650a22767b595f58f3dbc1ab331d9fde1232a261f"
+            ],
+            "target_chain_verified": false
+          },
+          {
+            "target": "AAA経路 / CTなし",
+            "source": "ruby_ssl_socket",
+            "origin": "https://target-4.example.invalid/",
+            "origin_verified": true,
+            "verify_code": 20,
+            "tls_verified": false,
+            "hostname_verified": true,
+            "chain_spki_sha256": [
+              "87fc65373bd3edb90fdb3b997ba37c03358ebef0c012f791111622daa2729987"
+            ],
+            "target_chain_verified": false
+          }
+        ],
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": [
+        {
+          "target": "通常サイト",
+          "control": true,
+          "status": "CONTROL_OK",
+          "detail": "合成fixture: CONTROL_OK"
+        },
+        {
+          "target": "emSign / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "AAA経路 / CTあり",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        },
+        {
+          "target": "emSign / CTなし",
+          "control": false,
+          "status": "UNKNOWN",
+          "detail": "TIMEOUT: synthetic fixture\nRetrying fetcher due to error (2/4): Bundler::Fetcher::CertificateFailureError at https://retry.example.invalid/"
+        },
+        {
+          "target": "AAA経路 / CTなし",
+          "control": false,
+          "status": "REJECTED",
+          "detail": "合成fixture: REJECTED"
+        }
+      ]
+    }
+  },
+  {
+    "display_number": 277,
+    "record": {
+      "name": "Bundler / gem source（普段の設定）",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "認証情報の送信を避けるため、普段使う設定での通信は確認していません。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "診断用設定: 同一実体と合成データのみ。普段の設定・実効CA・別接続先は未確認。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "executable": "/fixture/managed/bin/bundler",
+        "runtime_executable": "/fixture/managed/bin/ruby",
+        "probe": "synthetic_bundle_lock",
+        "diagnostic_observation": "connection_error",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 278,
+    "record": {
+      "name": "Bundler / gem source（普段の設定）",
+      "status": "MANUAL",
+      "assessment_method": "manual",
+      "detail": "認証情報の送信を避けるため、普段使う設定での通信は確認していません。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "診断用設定: 同一実体と合成データのみ。普段の設定・実効CA・別接続先は未確認。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "executable": "/fixture/system/bin/bundle",
+        "runtime_executable": "/fixture/system/bin/ruby",
+        "probe": "synthetic_bundle_lock",
+        "diagnostic_observation": "connection_error",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 469,
+    "record": {
+      "name": "RubyGems / バージョン",
+      "status": "INFO",
+      "assessment_method": "inventory",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "rubygems",
+        "tool_name": "RubyGems",
+        "executable": "/fixture/managed/bin/gem",
+        "version": "4.0.20",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 470,
+    "record": {
+      "name": "RubyGems / バージョン",
+      "status": "INFO",
+      "assessment_method": "inventory",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "rubygems",
+        "tool_name": "RubyGems",
+        "executable": "/fixture/system/bin/gem",
+        "version": "3.0.3",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 471,
+    "record": {
+      "name": "Bundler / バージョン",
+      "status": "INFO",
+      "assessment_method": "inventory",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "executable": "/fixture/managed/bin/bundle",
+        "version": "Bundler version 4.0.20",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 472,
+    "record": {
+      "name": "Bundler / バージョン",
+      "status": "INFO",
+      "assessment_method": "inventory",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "executable": "/fixture/managed/bin/bundler",
+        "version": "Bundler version 4.0.20",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 473,
+    "record": {
+      "name": "Bundler / バージョン",
+      "status": "INFO",
+      "assessment_method": "inventory",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "executable": "/fixture/system/bin/bundle",
+        "version": "Bundler version 1.17.2",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  },
+  {
+    "display_number": 474,
+    "record": {
+      "name": "Bundler / バージョン",
+      "status": "INFO",
+      "assessment_method": "inventory",
+      "detail": "合成データによる回帰ケース。",
+      "action": "対象の導入先と未確認事項を確認してください。",
+      "scope": "合成fixtureの同一導入先・実行環境に限定した検証。",
+      "metadata": {
+        "tool_id": "bundler",
+        "tool_name": "Bundler",
+        "executable": "/fixture/system/bin/bundler",
+        "version": "Bundler version 1.17.2",
+        "fixture_origin": "synthetic-v1"
+      },
+      "samples": []
+    }
+  }
+]
