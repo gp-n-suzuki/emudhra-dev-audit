@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 
-function page(actionMode = false) {
+function page(actionMode = false, guided = false) {
   const cards = [
     ['action review', 'Java 要対応 /jdk/bin/java 接続テスト未実施'], ['review', 'PHP 原因の確認が必要'],
     ['complete', 'curl 検査用サイトへの接続をブロック'], ['scope', '.NET 見つからない'], ['info', 'OpenSSL 環境情報のみ']
@@ -18,6 +18,19 @@ function page(actionMode = false) {
     dataset:{filter}, setAttribute(key,value) {this[key]=value;}
   }));
   const elements = {'record-search':{value:''}, 'result-count':{}, 'empty-results':{}};
+  const navButtons = cards.map((card, i) => {
+    card.id = 'tool-'+i;
+    elements[card.id] = card;
+    card.querySelector = () => ({focus(){}});
+    return {dataset:{select:card.id}, hidden:false, setAttribute(key,value){this[key]=value;}};
+  });
+  const navGroups = [navButtons.slice(0, 2), navButtons.slice(2)].map((buttons, i) => {
+    const group = {open:i===0, hidden:false, count:{textContent:''},
+      querySelectorAll:()=>buttons, querySelector(){return this.count;}};
+    buttons.forEach(button=>button.closest=()=>group);
+    return group;
+  });
+  if (guided) elements['tool-navigation'] = {};
   const missing = {hidden:false, open:false};
   const groups = cards.map(card => ({hidden:false, count:{textContent:''}, querySelectorAll:()=>[card],
     closest() {return card.dataset.state === 'scope' ? missing : null;},
@@ -26,6 +39,10 @@ function page(actionMode = false) {
   const evidence = {tagName:'DETAILS',open:false,parentElement:details[0]};
   details[0].tagName = 'DETAILS';
   elements['item-0'] = {parentElement:evidence};
+  elements['item-0'].closest = () => cards[0];
+  const copied = [];
+  elements['prompt'] = {value:'edited text', focus(){this.focused=true;}, select(){this.selected=true;}};
+  elements['prompt-status'] = {};
   const handlers = {};
   const context = vm.createContext({document:{
     getElementById(id) {return elements[id];},
@@ -33,15 +50,86 @@ function page(actionMode = false) {
     querySelectorAll(selector) {
       if (selector === 'article[data-tool]') return cards;
       if (selector === 'button[data-filter]') return buttons;
+      if (selector === 'button[data-select]') return navButtons;
+      if (selector === '[data-navigation-group]') return navGroups;
       if (selector === '[data-result-group]') return groups;
-      if (selector === 'details') return details;
-      if (selector === '[hidden]') return [...cards, ...groups].filter(x => x.hidden);
+      if (selector === 'details') return guided ? details.concat(navGroups) : details;
+      if (selector === '[hidden]') return [...cards, ...groups, ...navButtons].filter(x => x.hidden);
       throw new Error(`Unexpected selector: ${selector}`);
     }
-  }, window:{addEventListener(name, handler) {handlers[name]=handler;}}});
+  }, navigator:{clipboard:{async writeText(value){copied.push(value);}}}, window:{location:{hash:''}, addEventListener(name, handler) {handlers[name]=handler;}}});
   vm.runInContext(fs.readFileSync(require.resolve('../report-ui.js'), 'utf8'), context);
-  return {cards, buttons, elements, context, details, handlers, groups, missing, evidence};
+  return {cards, buttons, navButtons, navGroups, copied, elements, context, details, handlers, groups, missing, evidence};
 }
+
+test('guided view selects one target while retaining all inventory choices', () => {
+  const ui = page(true, true);
+  assert.deepEqual(ui.cards.filter(c=>!c.hidden), [ui.cards[0]]);
+  assert.equal(ui.navButtons.filter(b=>!b.hidden).length, 5);
+  assert.equal(ui.elements['result-count'].textContent, '5 / 5ツール');
+  vm.runInContext("selectTool('tool-2')", ui.context);
+  assert.deepEqual(ui.cards.filter(c=>!c.hidden), [ui.cards[2]]);
+  ui.handlers.beforeprint();
+  assert.equal(ui.cards.filter(c=>!c.hidden).length, 5);
+  ui.handlers.afterprint();
+  assert.deepEqual(ui.cards.filter(c=>!c.hidden), [ui.cards[2]]);
+});
+
+test('guided search and evidence links select a matching target and open its evidence', () => {
+  const ui = page(true, true);
+  ui.elements['record-search'].value = 'curl';
+  vm.runInContext("filterReports('all')", ui.context);
+  assert.deepEqual(ui.cards.filter(c=>!c.hidden), [ui.cards[2]]);
+  assert.equal(ui.navButtons.filter(b=>!b.hidden).length, 1);
+  assert.equal(ui.navGroups[1].open, true);
+  assert.equal(ui.navGroups[0].hidden, true);
+  assert.equal(ui.navGroups[1].count.textContent, '1');
+  vm.runInContext("revealRecord('item-0')", ui.context);
+  assert.deepEqual(ui.cards.filter(c=>!c.hidden), [ui.cards[0]]);
+  assert.equal(ui.elements['record-search'].value, '');
+  assert.equal(ui.evidence.open, true);
+});
+
+test('initial selection follows the priority navigation order rather than record order', () => {
+  const ui = page(true, true);
+  ui.navButtons.unshift(ui.navButtons.pop());
+  vm.runInContext("selectedTool = ''; filterReports('all')", ui.context);
+  assert.deepEqual(ui.cards.filter(c=>!c.hidden), [ui.cards[4]]);
+  assert.equal(ui.navGroups[1].open, true);
+});
+
+test('printing restores a manually closed navigation group without reopening it', () => {
+  const ui = page(true, true);
+  ui.navGroups[0].open = false;
+  ui.handlers.beforeprint();
+  assert.equal(ui.navGroups[0].open, true);
+  ui.handlers.afterprint();
+  assert.equal(ui.navGroups[0].open, false);
+  assert.deepEqual(ui.cards.filter(c=>!c.hidden), [ui.cards[0]]);
+});
+
+test('target search excludes shared AI instructions and user prompt edits', () => {
+  const ui = page(true, true);
+  ui.cards.forEach(card=>{card.dataset.search=card.textContent; card.textContent+=' Homebrew example in AI instructions';});
+  ui.elements['record-search'].value='Homebrew';
+  vm.runInContext("filterReports('all')", ui.context);
+  assert.equal(ui.cards.filter(c=>!c.hidden).length, 0);
+  ui.elements['record-search'].value='/jdk/bin/java';
+  vm.runInContext("filterReports('all')", ui.context);
+  assert.deepEqual(ui.cards.filter(c=>!c.hidden), [ui.cards[0]]);
+});
+
+test('copy uses the edited prompt and falls back to manual selection on rejection', async () => {
+  const ui = page(true, true);
+  await vm.runInContext("copyPrompt('prompt')", ui.context);
+  assert.deepEqual(ui.copied, ['edited text']);
+  ui.context.navigator.clipboard.writeText = async()=>{throw Error('unavailable');};
+  ui.elements.prompt.value = 'second edit';
+  await vm.runInContext("copyPrompt('prompt')", ui.context);
+  assert.equal(ui.elements.prompt.selected, true);
+  assert.equal(ui.elements.prompt.value, 'second edit');
+  assert.match(ui.elements['prompt-status'].textContent, /手動/);
+});
 
 test('first view shows the whole inventory instead of mixing pending states', () => {
   const ui = page();

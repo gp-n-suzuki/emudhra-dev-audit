@@ -1097,9 +1097,8 @@ def write_reports(audit, outdir):
         for sample in r['samples']:
             lines.append('    [{}] {}: {}'.format(LABEL.get(sample['status'],sample['status']),sample['target'],sample['detail']))
         lines.extend('    '+line for line in reporting.application_lines(r))
-        if remediation.plan(r):
-            lines.extend('    '+line for line in remediation.text_lines(r))
-        elif r['requires_attention'] and r['action']: lines.append('    次の確認: '+r['action'])
+        if r.get('action'):
+            lines.append('    取得済み記録の案内（原文）: '+r['action'])
     for tool in display['tools']:
         lines.extend(reporting.action_text(tool))
         for index in tool['record_indices']:
@@ -1119,6 +1118,8 @@ def write_reports(audit, outdir):
     print(state['counting_note'])
     for tool in display['tools']:
         if any(key in reporting.presentation.NEEDS_ACTION for key in tool['actions']):
+            print('\n'+'\n'.join(reporting.action_text(tool)))
+        elif tool['primary_action'] in ('version_complete', 'complete', 'scoped_complete', 'checked'):
             print('\n'+'\n'.join(reporting.action_text(tool)))
     for row in audit.records:
         if row['status'] in ('ACTION','UPDATE'):
@@ -1189,13 +1190,14 @@ def main(argv=None):
         write_reports(audit,out)
     finally:
         audit.tmp.cleanup()
-    actions={key for tool in reporting.action_model(audit.records)['tools'] for key in tool['actions']}
+    display=reporting.action_model(audit.records)
+    actions={key for tool in display['tools'] for key in tool['actions']}
     if actions & (reporting.presentation.NEEDS_ACTION - {'investigate'}): return 1
     # Keep 0/1/2 semantics consistent with the displayed action, including
     # a known fixed version whose communication remains untested.
     if 'investigate' in actions: return 2
     # Context-only failures are not tool cards, but still make diagnosis incomplete.
-    if any(r['review_state'] in ('review','unverified') for r in audit.records): return 2
+    if any(audit.records[i]['review_state'] in ('review','unverified') for i in display['context_record_indices']): return 2
     return 0
 
 if __name__ == '__main__':

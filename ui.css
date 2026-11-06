@@ -828,7 +828,10 @@ footer>span {
 .action-badge {display:inline-block;padding:3px 10px;border-radius:5px;background:#edf2f1;color:#445e63;font-size:12px;font-weight:600;line-height:1.6;text-align:left}
 .action-update,.action-configure,.action-connection_problem,.action-action_required {color:#8b2827;background:#fbe8e7}
 .action-investigate {color:#795014;background:#fff1db}
-.action-checked {color:#135f50;background:#e3f3ed}
+.action-checked,.action-version_complete,.action-complete,.action-scoped_complete {color:#135f50;background:#e3f3ed}
+.version-completion {border-left:4px solid var(--accent);padding:16px 20px;background:#f0f8f5;overflow-wrap:anywhere}
+.version-completion h4 {font-size:17px;margin:0 0 10px;color:var(--accent)}
+.version-completion p {font-size:14px;margin:8px 0}
 .axis-summary {display:grid;gap:3px;font-size:12px;font-weight:400;color:var(--muted);line-height:1.65;margin-top:8px}
 .assessment-axes {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:16px 0}
 .assessment-axis {border:1px solid var(--line);border-radius:8px;padding:16px;min-width:0;background:#f8faf9}
@@ -854,8 +857,31 @@ footer>span {
 .installation-result[data-action=connection_problem],.installation-result[data-action=action_required],
 .installation-result[data-action=configure],.installation-result[data-action=update] {border-left-color:var(--red)}
 .installation-result[data-action=investigate] {border-left-color:#aa7729}
-.installation-result[data-action=checked] {border-left-color:var(--accent)}
+.installation-result[data-action=checked],.installation-result[data-action=version_complete],.installation-result[data-action=complete],.installation-result[data-action=scoped_complete] {border-left-color:var(--accent)}
 .results-page .tool-record>.tool-row {grid-template-columns:minmax(0,2fr) minmax(180px,1fr) 12px}
+.report-help {padding:16px 20px;margin:0 0 24px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;background:var(--soft);font-size:14px}
+.report-help p+p {margin-top:12px}
+.installation-location {font-size:14px;margin:0 0 20px}
+.installation-location dt {font-weight:600;margin-top:10px}
+.installation-location dd {margin:4px 0 0}
+.installation-location code {display:block;white-space:normal;overflow-wrap:anywhere;word-break:normal}
+.first-actions {padding:20px;border:2px solid var(--accent);border-radius:8px;background:#f0f8f5;margin-bottom:24px}
+.first-actions h4 {color:var(--accent);font-size:19px;margin:0 0 12px}
+.first-actions h5 {font-size:16px;margin:0 0 8px}
+.first-actions ol {padding-left:24px;margin:0}
+.first-actions li {overflow-wrap:anywhere}
+.first-actions>ol>li+li {border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.first-actions li li+li {margin-top:8px}
+.first-actions p {margin-bottom:8px}
+.first-actions .action-followup {margin-top:12px;background:white}
+.action-followup summary,.assessment-details>summary {padding:10px 12px;cursor:pointer;border:1px solid var(--line);border-radius:5px;font-size:14px}
+.action-followup ol {padding:12px 16px 12px 36px}
+.decision-reasons {font-size:14px;margin:20px 0}
+.decision-reasons h5 {font-size:15px;margin:0 0 12px}
+.decision-reasons ul {padding-left:20px;margin:0}
+.decision-reasons li+li {margin-top:12px}
+.decision-reasons li p {margin:4px 0}
+.assessment-details {margin:20px 0}
 @media(max-width:650px) {
   .assessment-axes {grid-template-columns:minmax(0,1fr)}
   .results-page .tool-record>.tool-row {grid-template-columns:minmax(0,1fr) 12px}
@@ -871,4 +897,90 @@ footer>span {
   .inspection-data pre {max-height:none;overflow:visible;white-space:pre-wrap}
   .installation-result {overflow:visible;break-inside:auto}
   .installation-result>.result-record>.result-row {break-after:avoid}
+}
+
+/* Guided report: a target list and one concise operation panel. */
+.guided-layout { display:grid; grid-template-columns:minmax(190px, 250px) minmax(0, 1fr); gap:24px; align-items:start; }
+#tool-navigation { position:sticky; top:16px; max-height:85vh; overflow:auto; padding:12px; border:1px solid #d7dce4; border-radius:12px; background:#f7f8fb; }
+#tool-navigation h2 { font-size:1rem; margin:4px 8px 12px; }
+#tool-navigation button { display:block; width:100%; text-align:left; margin:3px 0; padding:10px 12px; border:1px solid transparent; border-radius:8px; background:transparent; color:#243247; white-space:normal; }
+#tool-navigation button[aria-pressed="true"] { background:#e6edf9; border-color:#9aafd2; }
+#tool-navigation button[hidden] { display:none; }
+#tool-navigation small { display:block; color:#5b6576; margin-top:4px; }
+.guided-layout .result-group > h2 { display:none; }
+.selected-tool-heading { margin:0 0 16px; font-size:1.6rem; }
+.work-task { padding:16px 18px; margin:0 0 12px; border:1px solid #d7dce4; border-radius:10px; background:#fff; }
+.work-task h3 { font-size:1.08rem; margin:8px 0; }
+.work-task p { margin:8px 0; }
+.work-labels { color:#47556c; font-size:.88rem; }
+.work-labels span { font-weight:700; }
+.work-task[data-classification="required"] { border-left:4px solid #b14f2a; }
+.work-task[data-classification="unneeded"] { border-left:4px solid #43816a; }
+.work-task[data-classification="conditional"] { border-left:4px solid #637da7; }
+.work-target { font-family:ui-monospace,monospace; font-size:.8rem; color:#637086; overflow-wrap:anywhere; }
+.work-note { padding:10px 14px; background:#f0f3f8; border-radius:8px; }
+.work-instructions summary { font-weight:600; cursor:pointer; }
+.operation-steps li { margin:12px 0; }
+.operation-kind { display:inline-block; padding:2px 6px; border-radius:4px; background:#edf0f5; font-size:.78rem; }
+.operation-steps pre { white-space:pre-wrap; overflow-wrap:anywhere; background:#f5f6f9; padding:12px; border-radius:6px; }
+.ai-question { margin:18px 0; border:1px solid #d7dce4; border-radius:10px; padding:14px 18px; }
+.ai-question h3 { margin:0 0 10px; font-size:1rem; }
+.ai-editor > div { margin-top:12px; }
+.ai-editor label { display:block; margin:10px 0; }
+.ai-prompt { display:block; width:100%; min-height:300px; box-sizing:border-box; padding:12px; font:13px/1.6 ui-monospace,monospace; color:#1c293b; background:#fff; border:1px solid #a7b1c1; border-radius:6px; resize:vertical; }
+.ai-editor button { margin-top:12px; }
+.filter-options { margin:14px 0; }
+@media(max-width:760px) { .guided-layout { grid-template-columns:1fr; } #tool-navigation { position:static; max-height:240px; } }
+@media print { .guided-layout { display:block; } #tool-navigation,.ai-question { display:none !important; } .guided-layout .result-group > h2 { display:block; } .work-task { break-inside:avoid; } }
+.guided-layout .result-list > article { padding:22px; }
+.work-guidance > .first-actions { padding:0; border:0; background:transparent; margin:0; }
+
+/* Prioritized targets and always-visible installation/version evidence. */
+#tool-navigation { max-height:88vh; }
+#tool-navigation .navigation-help { margin:0 8px 12px; font-size:12px; color:var(--muted); }
+#tool-navigation .navigation-group { padding-top:12px; margin-top:12px; }
+#tool-navigation .navigation-group > summary { color:var(--ink); line-height:1.5; }
+#tool-navigation .navigation-group > summary span { float:right; background:#e5ece9; padding:0 6px; border-radius:4px; font-size:12px; }
+#tool-navigation .navigation-group[open] > summary { margin-bottom:8px; }
+#tool-navigation .nav-version { color:#405b64; font-size:11px; overflow-wrap:anywhere; }
+#tool-navigation button strong { font-size:14px; }
+.target-overview { margin-bottom:22px; }
+.installation-counts { font-size:14px; color:#355861; font-weight:650; }
+.target-concern { border-left:4px solid var(--accent); background:#eef6f3; padding:16px 18px; margin:14px 0 22px; }
+.target-concern > span { display:block; color:var(--muted); font-size:12px; margin-bottom:5px; }
+.target-concern h3 { font-size:19px; margin-bottom:8px; }
+.target-concern p { margin-bottom:0; font-size:14px; }
+.target-overview > h3 { font-size:15px; margin-bottom:8px; }
+.installation-overview { font-size:12px; line-height:1.6; }
+.installation-overview th,.installation-overview td { padding:10px 12px; }
+.installation-overview tbody th { background:transparent; font-weight:500; width:35%; }
+.installation-overview td:last-child { width:30%; }
+.completed-work,.remaining-scope { margin:12px 0; padding-top:10px; }
+@media(min-width:1000px) { .results-page { max-width:1240px; } .guided-layout { grid-template-columns:275px minmax(0,1fr); } }
+@media(max-width:760px) { .installation-overview { min-width:540px; } }
+.installation-version + .installation-version { margin-top:7px; }
+.installation-version small { display:block; font-size:11px; color:var(--muted); }
+.target-concern pre { margin:12px 0 0; padding:10px; background:white; border-radius:6px; }
+
+/* Actionable rows remain identifiable without color or background printing. */
+.installation-overview caption { caption-side:top; text-align:left; font-size:12px; padding:0 0 12px; color:var(--muted); }
+.installation-overview .installation-row[data-attention="required"] > * { background:#f5f7f5; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.installation-overview .installation-row[data-attention="required"] > th { border-left:3px solid #84958f; font-weight:600; }
+.row-priority { display:block; font-size:11px; font-weight:650; margin-bottom:4px; }
+.result-badge { display:inline-block; padding:4px 7px; border:1px solid #c5cecd; border-radius:4px; font-size:12px; line-height:1.5; color:#40545b; background:#f8f9f9; }
+.result-badge[data-tone="required"] { border-color:#a5b5af; color:#304c44; background:#eaf0ec; font-size:13px; font-weight:650; }
+.result-badge[data-tone="required"] > span { margin-right:3px; }
+.result-badge[data-tone="review"] { border-style:dashed; border-color:#b8b9ab; background:#f6f7f2; color:#505545; font-weight:600; }
+.result-badge[data-tone="conditional"] { border-style:dashed; }
+.result-badge[data-tone="unknown"],.result-badge[data-tone="scope"] { font-weight:500; }
+.row-result-description { display:block; margin-top:7px; font-size:12px; }
+.row-update-count { display:block; margin-top:7px; font-size:12px; font-weight:600; }
+.installation-version.version-attention { padding:4px 8px; border:0; border-left:2px solid #a5b5af; border-radius:0; background:transparent; }
+.installation-version.version-attention[data-attention="review"] { border-left-style:dashed; border-left-color:#b8b9ab; }
+.component-attention { display:block; font-size:11px; font-weight:650; margin-bottom:2px; }
+.version-attention .version-value { font-size:13px; font-weight:650; }
+.version-attention small { color:var(--ink); font-size:12px; }
+#tool-navigation .nav-attention-count { display:block; font-size:12px; font-weight:650; color:#405c52; }
+@media print, (forced-colors:active) {
+  .installation-overview .installation-row[data-attention="required"] > *,.installation-overview .installation-row[data-attention="required"] > th,.result-badge,.installation-version.version-attention { border-color:currentColor; }
 }

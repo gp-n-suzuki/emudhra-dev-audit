@@ -45,7 +45,7 @@ class PublishedVersionTests(unittest.TestCase):
         self.assertIn(('rustls-webpki', '0.103.16'), [(d['component'],d['version']) for d in deps])
         self.assertIn('OS', actual[0]['scope'])
         page = audit.render_report(actual, 'fixture')
-        self.assertIn('公開依存関係は対策版', page)
+        self.assertIn('公開依存関係は対策バージョン', page)
         self.assertIn('rustls-webpki', page)
         self.assertIn('0.103.16', page)
         self.assertIn('Cargo.lock', page)

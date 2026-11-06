@@ -89,10 +89,10 @@ class ReportGuidanceTests(unittest.TestCase):
             text = (out/'summary.txt').read_text()
             saved = json.loads((out/'report.json').read_text())['records'][0]
         for output in (self.expanded_result_text(page), text, console.getvalue()):
-            self.assertIn('同梱Electronが対策版未満', output)
-            self.assertIn('対応版が提供されている場合', output)
+            self.assertIn('同梱Electronが対策バージョン未満', output)
+            self.assertIn('対応バージョンが提供されている場合', output)
             self.assertIn('独自修正', output)
-            self.assertIn('配布元の対応状況を確認する', output)
+            self.assertIn('アプリの対応バージョンを調べる', output)
             self.assertNotIn('このアプリの対応版へ更新する', output)
         self.assertIn('electron：44.4.3 / 照合基準 44.9.1', page)
         self.assertEqual(saved['status'], 'UPDATE')
@@ -134,12 +134,12 @@ class ReportGuidanceTests(unittest.TestCase):
         visible = self.expanded_result_text(page)
         self.assertIn('同梱Go', visible)
         self.assertIn('1.27.2', visible)
-        self.assertIn('配布元の対応状況を確認する', visible)
+        self.assertIn('アプリの対応バージョンを調べる', visible)
         self.assertIn('不足情報と次の確認', visible)
         self.assertIn('探索の深さの上限', visible)
         self.assertIn(path, page)
         self.assertIn('探索の深さの上限', page)
-        self.assertLess(page.index('配布元の対応状況を確認する'), page.index('探索の深さの上限'))
+        self.assertLess(visible.index('アプリの対応バージョンを調べる'), visible.index('探索の深さの上限'))
 
     def test_ca_file_is_in_inspection_data_and_main_result_is_unconfirmed(self):
         row = self.app_record('Example.app', '/Applications/Example.app', status='MANUAL', coverage='uninspected')
@@ -325,7 +325,7 @@ class ReportGuidanceTests(unittest.TestCase):
         overview, _, summary, console = self.outputs(rows)
         for output in (summary, console):
             self.assertIn('追加確認が必要なツールが2件あります', output)
-            self.assertIn('照合した本体版は対応基準を満たす', output)
+            self.assertIn('照合した本体バージョンは対応基準を満たす', output)
             self.assertIn('通信: 未実施', output)
         self.assertIn('検査先の証明書を拒否できた: 0ツール', overview)
         self.assertNotIn('すべて対策済み', overview)
@@ -378,7 +378,7 @@ class ReportGuidanceTests(unittest.TestCase):
         rows[0]['metadata'] = {'java_home': '/opt/example-jdk'}
         _, page, summary, console = self.outputs(rows)
         for output in (page, summary, console):
-            self.assertIn('このJDKを対応版へ更新する', output)
+            self.assertIn('このJDKを対応バージョンへ更新する', output)
             self.assertIn('NODE_TLS_REJECT_UNAUTHORIZED=0', output)
             self.assertIn('Python本体を更新する', output)
             self.assertIn('再診断', output)
@@ -390,13 +390,13 @@ class ReportGuidanceTests(unittest.TestCase):
         _, page, summary, _ = self.outputs([row])
         for output in (page, summary):
             self.assertIn('現在: 26.2.1', output)
-            self.assertIn('参考修正版: 26.2.2', output)
+            self.assertIn('対策バージョンの基準: 26.2.2', output)
             self.assertIn('このPythonのpipを更新する', output)
 
     def test_successful_record_does_not_offer_unnecessary_remediation(self):
         _, page, summary, console = self.outputs([record('Java JSSE', 'REJECTED', 'measured')])
         for output in (page, summary, console):
-            self.assertNotIn('このJDKを対応版へ更新する', output)
+            self.assertNotIn('このJDKを対応バージョンへ更新する', output)
 
     def test_uv_update_has_tool_specific_instructions(self):
         _, page, summary, console = self.outputs([record('uvバージョン', 'UPDATE', 'version')])

@@ -138,7 +138,7 @@ class ResearchRulesTests(unittest.TestCase):
             self.assertIn('known_fixed_versions',fact['review'])
         unknown=verdicts.prepare([row('claude-code','2.1.314 (Claude Code)')])[0]
         self.assertIn('research',unknown['metadata'])
-        self.assertIn('公式の対策版',audit.render_report([unknown],'fixture'))
+        self.assertIn('公式の対策バージョン',audit.render_report([unknown],'fixture'))
 
     def test_corepack_node_binding_uses_recorded_actual_runtime_not_shim(self):
         with tempfile.TemporaryDirectory() as tmp:
