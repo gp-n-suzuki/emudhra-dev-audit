@@ -69,7 +69,7 @@ class CapturedVersionTests(unittest.TestCase):
         self.assertEqual(parts[0]['remediation']['target'], '/old/heroku')
         self.assertIn('22.22.2', page)
         self.assertIn('22.23.4', page)
-        self.assertIn('使用するNode.jsは対策版', page)
+        self.assertIn('使用するNode.jsは対策バージョン', page)
         self.assertIn('標準の証明書', parts[1]['scope'])
         self.assertEqual(saved, verdicts.prepare(saved))
 

@@ -76,8 +76,8 @@ class ReportLayoutTests(unittest.TestCase):
         self.assertIn('<td>3</td>', table)
         html = audit.render_report([record], 'fixture')
         for check in checks: self.assertIn(check['path'], html)
-        self.assertIn('対策版未満', html)
-        self.assertIn('対応版を使用中', html)
+        self.assertIn('対策バージョン未満', html)
+        self.assertIn('対応バージョンを使用中', html)
 
     def test_distinct_results_for_the_same_component_version_do_not_merge(self):
         checks = [dict(component='go', version='1.27.3', status=status, detail='evidence', path='/bin/'+status)

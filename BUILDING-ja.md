@@ -4,7 +4,7 @@
 
 ## 必要環境と配布対象
 
-ビルドにはPython 3.12以上が必要です。ソース版の診断に必要なPython 3.8以上とは条件が異なります。表示版は1.0.1、内部版は1.0.1です。共通定義は `distribution_version.py` にあります。
+ビルドにはPython 3.12以上が必要です。ソース版の診断に必要なPython 3.8以上とは条件が異なります。表示版は1.0.3、内部版は1.0.3です。共通定義は `distribution_version.py` にあります。
 
 | 対象 | 配布形式 | 同梱Pythonの実行ファイル |
 |---|---|---|
@@ -26,23 +26,25 @@ python3 -B -m unittest discover -s tests
 node --test tests/test_quickstart.cjs tests/test_report_ui.cjs
 python3 -B packaging/generate_sample.py
 # 全6対象をビルドし、アーカイブを検査
-python3 -B packaging/build_release.py --out releases/1.0.1
-python3 -B packaging/verify_release.py releases/1.0.1
+python3 -B packaging/build_release.py --out releases/1.0.3
+python3 -B packaging/verify_release.py releases/1.0.3
 ```
 
 キャッシュは `.artifacts/runtime-cache/` です。ソース配布にはキャッシュやビルド済み配布物を含めません。`fetch_runtimes.py` は不足分を取得し、ハッシュを検証します。`build_release.py` 自体にネットワーク取得はなく、不足・不一致時は停止します。
 
 `build_release.py` の `--platform windows-x64` などを繰り返せば対象を限定できます。ただし `verify_release.py` と `build_bundle.py` は6対象すべてがそろった成果物を前提とします。ビルダーは既存の出力先への書き込みを禁止していないため、必ず出力先を確認してください。
 
+同梱ランタイムを起動せずに、共通アプリ資材から新規レポートを生成する検証もできます。既存のPythonで `python3 -B packaging/report_flow_smoke.py --app <展開先>/app --out <未使用の出力先>` を実行します。収集は合成入力、ブラウザ起動は記録用処理に置き換えます。これは同梱ランタイムや実際のデスクトップ起動の検証とは別です。
+
 配布直下は起動ファイル・`app`・`docs` の3項目です。診断コード、固定基準、サンプル、Python、利用者向け説明、第三者ライセンスを許可リストから梱包します。作業フォルダーや `releases/` 全体を圧縮して配布しないでください。テスト・Git履歴・個人診断・検証ログは含めません。Linuxランタイムは、大文字小文字を区別しないファイルシステムで内容を損なわないよう、アーカイブから直接再梱包します。
 
 全6対象のビルド・検査後に、必要なら一括配布用ZIPも作れます。
 
 ```bash
-python3 -B packaging/build_bundle.py --directory releases/1.0.1
+python3 -B packaging/build_bundle.py --directory releases/1.0.3
 ```
 
-出力は `releases/emudhra-dev-audit-1.0.1-all-platforms.zip` とその `.zip.sha256` です。入力先の `release-manifest.json` と、`verify_release.py` が生成する `archive-verification.json` が必要です。
+出力は `releases/emudhra-dev-audit-1.0.3-all-platforms.zip` とその `.zip.sha256` です。入力先の `release-manifest.json` と、`verify_release.py` が生成する `archive-verification.json` が必要です。
 
 ## 対象OSで起動を検証する
 
@@ -67,11 +69,11 @@ python3 -B packaging/build_bundle.py --directory releases/1.0.1
 Dockerの利用が許可され、必要イメージが既に存在する環境で使います。スクリプトは `--pull=never`、ネットワークなし、読み取り専用root、非root、capabilityなしで起動し、ホスト資材を読み取り専用でマウントします。
 
 ```bash
-bash packaging/run_virtual_checks.sh linux-x64 /absolute/path/releases/1.0.1 debian:bookworm-slim
+bash packaging/run_virtual_checks.sh linux-x64 /absolute/path/releases/1.0.3 debian:bookworm-slim
 # arm64イメージ名は利用可能なものへ置き換える
-bash packaging/run_virtual_checks.sh linux-arm64 /absolute/path/releases/1.0.1 '<既存arm64イメージ>'
-bash packaging/run_virtual_checks.sh windows-x64 /absolute/path/releases/1.0.1
-bash packaging/run_virtual_checks.sh windows-arm64 /absolute/path/releases/1.0.1
+bash packaging/run_virtual_checks.sh linux-arm64 /absolute/path/releases/1.0.3 '<既存arm64イメージ>'
+bash packaging/run_virtual_checks.sh windows-x64 /absolute/path/releases/1.0.3
+bash packaging/run_virtual_checks.sh windows-arm64 /absolute/path/releases/1.0.3
 ```
 
 Windowsの後二つは既存の `emudhra-wine-test:amd64` / `:arm64` を使う互換試験で、Windows実機検証ではありません。環境が不足する場合は停止します。
@@ -79,12 +81,12 @@ Windowsの後二つは既存の `emudhra-wine-test:amd64` / `:arm64` を使う�
 ## ソース候補・ハッシュ・版更新
 
 ```bash
-python3 -B packaging/build_source.py --out releases/1.0.1-public-source
+python3 -B packaging/build_source.py --out releases/1.0.3-public-source
 ```
 
 `packaging/source-files.txt` の明示リストだけをコピーし、Git履歴を含まない候補と `source-manifest.json` を作ります。出力先は未使用である必要があります。
 
-ルートの `SHA256SUMS.txt` は、現行ソースの整合性確認用です。対象は `packaging/source-files.txt` のうちチェックサム自身を除く167ファイルで、パス順にSHA-256を記録します。Git履歴、診断結果、ランタイムキャッシュ、配布アーカイブは対象に含めません。署名や過去の公開物のハッシュではありません。
+ルートの `SHA256SUMS.txt` は、現行ソースの整合性確認用です。対象は `packaging/source-files.txt` のうちチェックサム自身を除くファイルで、パス順にSHA-256を記録します。Git履歴、診断結果、ランタイムキャッシュ、配布アーカイブは対象に含めません。署名や過去の公開物のハッシュではありません。
 
 ソース候補の生成前に、次のコマンドで確認します。
 
@@ -120,7 +122,7 @@ PYTHON
 python3 -B verify_package.py
 ```
 
-`build_source.py` はルートのチェックサムもコピーしますが、更新はしません。ルートを検証してから候補を作成し、候補内でも `python3 -B verify_package.py` を実行してください。候補と同時生成される `source-manifest.json` は、チェックサム自身も含む168ファイルのサイズ・ハッシュを記録します。
+`build_source.py` はルートのチェックサムもコピーしますが、更新はしません。ルートを検証してから候補を作成し、候補内でも `python3 -B verify_package.py` を実行してください。候補と同時生成される `source-manifest.json` は、チェックサム自身も含め、許可リストにある全ファイルのサイズ・ハッシュを記録します。
 
 `build_release.py` は展開内容用の `docs/SHA256SUMS.txt` と、アーカイブ用の `SHA256SUMS.txt` を新たに生成します。ルートの既存チェックサムを手で転用しないでください。
 

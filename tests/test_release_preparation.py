@@ -35,13 +35,13 @@ class ReleasePreparationTests(unittest.TestCase):
                              '# eMudhra 開発環境診断 1.0.1')
 
     def test_distribution_reports_internal_semver_and_ships_its_version_source(self):
-        self.assertEqual(audit.TOOL_VERSION, '1.0.1')
+        self.assertEqual(audit.TOOL_VERSION, '1.0.3')
         self.assertEqual(build_release.VERSION, audit.TOOL_VERSION)
         with tempfile.TemporaryDirectory() as tmp:
             stage = Path(tmp)
             build_release.stage_files(ROOT, stage, 'macos-arm64')
             self.assertTrue((stage / 'app/distribution_version.py').is_file())
-            self.assertIn('1.0.1', (stage / 'docs/使い方.html').read_text(encoding='utf-8'))
+            self.assertIn('1.0.3', (stage / 'docs/使い方.html').read_text(encoding='utf-8'))
             self.assertNotIn('2.7.9', (stage / 'docs/使い方.html').read_text(encoding='utf-8'))
 
     def test_regression_json_contains_explicitly_synthetic_records_only(self):

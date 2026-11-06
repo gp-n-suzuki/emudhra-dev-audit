@@ -70,7 +70,7 @@ class DisplayCorrectionTests(unittest.TestCase):
         self.assertIn('1.26.10', remedy['reference'])
         self.assertNotIn('同梱', json.dumps(remedy, ensure_ascii=False))
         self.assertNotIn('削除', json.dumps(remedy, ensure_ascii=False))
-        self.assertEqual(reporting.result_label(report['records'][0], reporting.STATUS_LABELS), 'Go本体が対策版未満')
+        self.assertEqual(reporting.result_label(report['records'][0], reporting.STATUS_LABELS), 'Go本体が対策バージョン未満')
         self.assertNotIn('同梱Go', reporting.application_details(report['records'][0]))
         tool = report['presentation']['tools'][0]
         self.assertEqual(tool['primary_action'], 'update')
@@ -117,7 +117,8 @@ class DisplayCorrectionTests(unittest.TestCase):
         self.assertFalse(any(x['state'] == 'not_run' and x['record_indices'] == [0] for x in unit['communication']))
         self.assertTrue(any(x['state'] == 'rejected' for x in unit['communication']))
         self.assertTrue(any('実効CA' in x['reason'] for x in unit['gaps']))
-        self.assertEqual(unit['primary_action'], 'investigate')
+        self.assertEqual(unit['primary_action'], 'checked')
+        self.assertTrue(all(not g.get('blocks_completion', True) for g in unit['gaps']))
 
     def test_version_alone_does_not_suppress_unmeasured_communication(self):
         unit = model(saved(163, 473))['tools'][0]['units'][0]

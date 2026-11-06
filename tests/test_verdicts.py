@@ -74,7 +74,8 @@ class VerdictTests(unittest.TestCase):
     def test_docker_version_and_bad_setting_are_independent_verdicts(self):
         report,_,_=self.report([row('Docker Engine / Desktop / BuildKit / registry',items=[
             item('Docker Desktop','version','REFERENCE_OK',version='4.96.3'),
-            item('registryのTLS設定','configuration','ACTION',count=1)])])
+            item('registryのTLS設定','configuration','ACTION',count=1,
+                 insecure_registries=['registry.example:5000'],redacted_registry_count=0)])])
         self.assertEqual({r['status'] for r in report['records']},{'MANUAL','ACTION'})
         for r in report['records']:
             self.assertIn(r['assessment_method'],('version','configuration'))
@@ -184,7 +185,7 @@ class VerdictTests(unittest.TestCase):
     def test_failed_registry_settings_query_requires_followup(self):
         host=mock.Mock()
         host.find.return_value='docker'
-        host.call.side_effect=[(0,'{"Version":"29.9.2"}',''),(1,'','unavailable')]
+        host.call.side_effect=[(0,'{"Version":"29.9.2"}',''),(1,'','context unavailable'),(1,'','unavailable')]
         audit_fixture=SimpleNamespace(args=SimpleNamespace(offline=False),host=host)
         observations=evidence.docker_evidence(audit_fixture,[])
         self.assertTrue(any(i['check']=='registryのTLS設定' and i['status']=='UNKNOWN' for i in observations))

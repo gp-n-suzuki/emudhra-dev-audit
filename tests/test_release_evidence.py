@@ -144,7 +144,7 @@ class ReleaseEvidenceTests(unittest.TestCase):
             html = (Path(tmp)/'report.html').read_text()
         derived = next(r for r in result['records'] if r['metadata'].get('product_release_evidence'))
         self.assertEqual(derived['status'], 'UPDATE')
-        self.assertIn('公式対策版未満', html)
+        self.assertIn('公式対策バージョン未満', html)
         self.assertIn('1.5.27', html)
         self.assertIn('普段の設定', html)
         self.assertEqual(result['summary']['tool_review_counts']['action'], 1)

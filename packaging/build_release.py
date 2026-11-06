@@ -20,6 +20,8 @@ sys.path.insert(0, str(ROOT))
 from distribution_version import VERSION, DISPLAY_VERSION, TAG
 EPOCH=1793577600  # 2026-11-02 00:00 UTC
 APP_FILES=(
+    'docker_registry.py',
+    'report_actions.py','report_summary.py','ai_prompts.py','references/ai-answer-rules-ja.txt','references/ai-item-rules-ja.txt',
     'audit.py','distribution_version.py','evidence.py','verdicts.py','official_versions.py','version_inference.py','browser_results.py','php_diagnostics.py','reporting.py','remediation.py','desktop_entry.py','app_inventory.py','language_checks.py','tool_catalog.py','package_checks.py','p2_coverage.py','p2_settings.py','safechain_probe.py',
     'ui.css','report-ui.js','verify_package.py','research_rules.py','release_evidence.py','reassess_report.py','installed_metadata.py','references/official-research.json','connection_evidence.py','presentation.py',
     'sample-report.html',

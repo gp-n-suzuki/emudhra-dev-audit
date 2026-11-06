@@ -167,7 +167,7 @@ class OfficialResultClassificationTests(unittest.TestCase):
         self.assertEqual(saved['summary']['tool_review_counts']['review'], 0)
         self.assertEqual(saved['source_observation']['tool_version'], '2.6.0')
         self.assertEqual(saved['source_observation']['generated_at'], '2026-10-29T11:51:32+09:00')
-        self.assertIn('対応版を使用中', page)
+        self.assertIn('対応バージョンを使用中', page)
         self.assertEqual(page.count('class="installation-result"'), 2)
         self.assertIn('npm / codex-cli 0.165.0', page)
         self.assertIn('Homebrew (Intel)', page)
@@ -190,21 +190,21 @@ class OfficialResultClassificationTests(unittest.TestCase):
                          {'UPDATE', 'INFERRED_OK'})
         old = next(r for r in saved['records'] if r['status'] == 'UPDATE')
         fixed = next(r for r in saved['records'] if r['status'] == 'INFERRED_OK')
-        self.assertEqual(old['remediation']['title'], 'この導入のCodexを対策版へ更新する')
+        self.assertEqual(old['remediation']['title'], 'この導入のCodexを対策バージョンへ更新する')
         self.assertEqual(old['remediation']['target'], '/one/codex')
         self.assertNotIn('remediation', fixed)
         self.assertIn('更新が必要', page)
-        self.assertIn('対応版を使用中', page)
+        self.assertIn('対応バージョンを使用中', page)
         self.assertEqual(page.count('class="installation-result"'), 2)
 
     def test_official_python_pip_and_node_have_targeted_update_guidance(self):
         import remediation
         cases = [('Python / バージョン', {'tool_id':'python', 'packages':{}, 'executable':'/python'},
-                  'このPython本体を対策版へ更新する'),
+                  'このPython本体を対策バージョンへ更新する'),
                  ('Python / pip バージョン', {'tool_id':'python', 'executable':'/python'},
                   'このPythonのpipを更新する'),
                  ('Node.js バージョン', {'tool_id':'node', 'executable':'/node'},
-                  'Node.jsとnpmを対応版へ更新する')]
+                  'Node.jsとnpmを対応バージョンへ更新する')]
         for name, meta, expected in cases:
             with self.subTest(name=name):
                 value = verdicts.finish(record(name, 'UPDATE', meta, 'version'))
@@ -226,11 +226,12 @@ class OfficialResultClassificationTests(unittest.TestCase):
         self.assertEqual(saved['summary']['tool_review_counts']['action'], 1)
         self.assertTrue(any(r['status'] == 'ACTION' for r in saved['records']))
         self.assertIn('TLS検証の無効化', page)
-        self.assertIn('対応版を使用中', page)
+        self.assertIn('対応バージョンを使用中', page)
         # After opening the installation, the action is already visible.
         self.assertIn('<section class="ACTION" data-review="action" data-method="configuration"', page)
-        self.assertIn('class="action-reason action-configure"', page)
-        self.assertIn('Codex / TLS検証の無効化', page.split('検査データ・原記録')[0])
+        self.assertIn('class="first-actions"', page)
+        self.assertIn('証明書検証の設定を確認する', page)
+        self.assertIn('Codex / TLS検証の無効化', page.split('<details class="inspection-data">')[0])
 
     def test_conflicting_alias_snapshot_is_not_used_to_guess_version_origin(self):
         rows = [instance('/one/lib/node_modules/@openai/codex/bin/codex.js', '/shared/codex'),
@@ -283,7 +284,7 @@ class OfficialResultClassificationTests(unittest.TestCase):
         fixed = verdicts.prepare([record('pip', 'INFERRED_OK', {}, 'version'),
                                   record('pip / 通信', 'SKIP', {}, 'unmeasured')])
         state = reporting.overview(fixed)
-        self.assertIn('照合した版', state['title'])
+        self.assertIn('照合したバージョン', state['title'])
         self.assertNotEqual(state['tone'], 'review')
         info = verdicts.prepare([record('環境', 'INFO', {})])
         self.assertNotEqual(reporting.overview(info)['title'], '検査結果がありません')
@@ -317,7 +318,7 @@ class OfficialResultClassificationTests(unittest.TestCase):
         self.assertEqual(observations[paths[0]]['status'], 'INFERRED_OK')
         self.assertEqual(observations[paths[1]]['status'], 'UPDATE')
         self.assertEqual(observations[paths[2]]['review_state'], 'unverified')
-        self.assertIn('対応版を使用中', page)
+        self.assertIn('対応バージョンを使用中', page)
         self.assertIn('更新が必要', page)
 
     def test_node_and_go_collection_bind_version_and_transport_to_the_same_executable(self):
@@ -357,10 +358,10 @@ class OfficialResultClassificationTests(unittest.TestCase):
                 if tag == 'details': self.stack.pop()
             def handle_data(self, data):
                 if all(self.stack): self.text += data
-        # Long executable paths stay inside inspection data even after opening a result.
+        # Readers can identify the full installation path before opening raw data.
         page = audit.render_report(report['records'], 'fixture')
         visible = Visible(); visible.feed(page)
-        for path in nodes: self.assertNotIn(path, visible.text)
+        for path in nodes: self.assertIn(path, visible.text)
 
     def test_legacy_node_and_go_version_rows_reuse_the_recorded_executable(self):
         rows = [record('ホスト / Node.js /snapshot/bin/node', 'REFERENCE_OK',

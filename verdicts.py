@@ -9,6 +9,7 @@ import version_inference
 import language_checks
 import research_rules
 import release_evidence
+import docker_registry
 
 METHOD_LABELS = {'measured':'実測（通信）', 'static':'自動照合（保存データ）',
                  'corroborated':'実測＋推定（別接続で再検証）',
@@ -42,6 +43,7 @@ def review_state(status, required=False, metadata=None, method=None):
 
 
 def finish(row, method=None, required=False, scope=None):
+    row = docker_registry.reassess(row)
     value = {key:val for key,val in row.items() if key != 'evidence'}
     if method is None:
         if row.get('assessment_method'): method = row['assessment_method']

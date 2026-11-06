@@ -15,18 +15,18 @@
 
 ## 配布物を確認する
 
-表示版は **1.0.1**、内部版は **1.0.1**、タグ定義は **v1.0.1** です。共通定義は `distribution_version.py` です。既存の `v1.0.0` と1.0.0の成果物は保持し、修正版は新しいコミット・タグ・出力先で管理します。
+表示版は **1.0.3**、内部版は **1.0.3**、タグ定義は **v1.0.3** です。共通定義は `distribution_version.py` です。既存の `v1.0.0` と1.0.0の成果物は保持し、修正版は新しいコミット・タグ・出力先で管理します。
 
-`packaging/build_release.py --out releases/1.0.1` は、OS・CPU別アーカイブ、`SHA256SUMS.txt`、`release-manifest.json` を生成します。全6対象を用意した場合、アーカイブ名は次の形式です。
+`packaging/build_release.py --out releases/1.0.3` は、OS・CPU別アーカイブ、`SHA256SUMS.txt`、`release-manifest.json` を生成します。全6対象を用意した場合、アーカイブ名は次の形式です。
 
-- `emudhra-dev-audit-1.0.1-windows-x64.zip`
-- `emudhra-dev-audit-1.0.1-windows-arm64.zip`
-- `emudhra-dev-audit-1.0.1-macos-x64.tar.gz`
-- `emudhra-dev-audit-1.0.1-macos-arm64.tar.gz`
-- `emudhra-dev-audit-1.0.1-linux-x64.tar.gz`
-- `emudhra-dev-audit-1.0.1-linux-arm64.tar.gz`
+- `emudhra-dev-audit-1.0.3-windows-x64.zip`
+- `emudhra-dev-audit-1.0.3-windows-arm64.zip`
+- `emudhra-dev-audit-1.0.3-macos-x64.tar.gz`
+- `emudhra-dev-audit-1.0.3-macos-arm64.tar.gz`
+- `emudhra-dev-audit-1.0.3-linux-x64.tar.gz`
+- `emudhra-dev-audit-1.0.3-linux-arm64.tar.gz`
 
-`python3 -B packaging/verify_release.py releases/1.0.1` で検査し、生成された `archive-verification.json` と対象OS上の実行結果を確認します。`RELEASE-NOTES-ja.md` は説明文の元資料です。ビルダーは `RELEASE-ja.md` というファイルを生成しません。一括配布用ZIPが必要な場合は [BUILDING-ja.md](BUILDING-ja.md) の手順を使います。
+`python3 -B packaging/verify_release.py releases/1.0.3` で検査し、生成された `archive-verification.json` と対象OS上の実行結果を確認します。`RELEASE-NOTES-ja.md` は説明文の元資料です。ビルダーは `RELEASE-ja.md` というファイルを生成しません。一括配布用ZIPが必要な場合は [BUILDING-ja.md](BUILDING-ja.md) の手順を使います。
 
 ## 公開前に残る確認
 

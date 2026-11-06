@@ -33,8 +33,8 @@ class ResultConsolidationTests(unittest.TestCase):
         self.assertEqual(records[0]['status'], 'INFERRED_OK')
         self.assertEqual(reporting.group_tools(records)[0][0]['counts'], {'complete':1})
         label = reporting.result_label(records[0], reporting.STATUS_LABELS)
-        self.assertEqual(label, '同梱Goは対策版')
-        self.assertIn('同梱Goは対策版', audit.render_report(records, 'fixture'))
+        self.assertEqual(label, '同梱Goは対策バージョン')
+        self.assertIn('同梱Goは対策バージョン', audit.render_report(records, 'fixture'))
         self.assertFalse(any(r['status'] == 'REJECTED' for r in records))
         self.assertEqual(records, verdicts.prepare(records))
         dangerous = copy.deepcopy(record)
@@ -106,9 +106,9 @@ class ResultConsolidationTests(unittest.TestCase):
 
     def test_docker_lists_only_identifiers_and_gives_historical_fallback(self):
         host = SimpleNamespace(find=lambda name:'/docker', call=mock.Mock(side_effect=[
-            (0,'{}',''), (0,json.dumps({'registry.example:5000':{'Secure':False, 'Password':'DO-NOT-COPY'},
+            (0,'{}',''), (1,'','context unavailable'), (0,json.dumps({'RegistryConfig':{'IndexConfigs':{'registry.example:5000':{'Secure':False, 'Password':'DO-NOT-COPY'},
                                       'safe.example':{'Secure':True},
-                                      'https://user:SECRET@private.example/path?token=SECRET':{'Secure':False}}),'')]))
+                                      'https://user:SECRET@private.example/path?token=SECRET':{'Secure':False}}}}),'')]))
         fixture = SimpleNamespace(host=host, args=SimpleNamespace(offline=False))
         check = next(x for x in evidence.docker_evidence(fixture, []) if x['kind'] == 'configuration')
         self.assertEqual(check['insecure_registries'], ['registry.example:5000'])
@@ -119,9 +119,11 @@ class ResultConsolidationTests(unittest.TestCase):
         guide = remediation.plan(verdicts.finish(record))
         self.assertIn('registry.example:5000', json.dumps(guide))
         record['metadata'] = {'count':1}
-        guide = remediation.plan(verdicts.finish(record))
-        self.assertIn('docker info --format', ' '.join(guide['steps']))
-        self.assertNotIn('「検査データ」にある', ' '.join(guide['steps']))
+        prepared = verdicts.prepare([record])
+        self.assertEqual(prepared[0]['status'], 'MANUAL')
+        self.assertIsNone(remediation.plan(prepared[0]))
+        steps = reporting.action_model(prepared)['tools'][0]['work']['tasks'][0]['steps']
+        self.assertTrue(any('docker info --format' in s.get('command','') for s in steps))
 
     def test_pip_entry_points_join_the_captured_python_environment(self):
         with tempfile.TemporaryDirectory() as tmp:

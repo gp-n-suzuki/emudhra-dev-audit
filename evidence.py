@@ -12,6 +12,7 @@ import stat
 import struct
 import sys
 import time
+import docker_registry
 
 ROOT = Path(__file__).resolve().parent
 DOCKER_SOURCE = 'https://docs.docker.com/desktop/release-notes/#4962'
@@ -242,18 +243,59 @@ def docker_evidence(audit, bundles):
                                 version=server.get('Version'),go_version=server.get('GoVersion'),platform=server.get('Os')))
     else:
         findings.append(finding('接続中のDocker Engine','inventory','UNKNOWN','デーモンの情報を取得できません。停止・接続設定・権限などの可能性があります。'))
-    rc,out,_ = audit.host.call([p,'info','--format','{{json .RegistryConfig.IndexConfigs}}'],timeout=10)
-    try: registries = json.loads(out) if not rc else None
-    except ValueError: registries = None
+    # Inspect local context metadata, then pin the info request to that context.
+    # A locally installed Desktop app alone says nothing about a remote daemon.
+    rc,out,_ = audit.host.call([p,'context','inspect','--format','{{json .}}'],timeout=10)
+    try: context = json.loads(out) if not rc else None
+    except ValueError: context = None
+    context = context if isinstance(context, dict) else {}
+    context_name = context.get('Name', '')
+    endpoints = context.get('Endpoints', {})
+    endpoint = endpoints.get('docker', {}) if isinstance(endpoints, dict) else {}
+    endpoint = endpoint if isinstance(endpoint, dict) else {}
+    host = endpoint.get('Host', '')
+    command = [p]
+    bound = False
+    if os.environ.get('DOCKER_HOST') and os.environ.get('DOCKER_CONTEXT'):
+        # Do not resolve conflicting environment selectors by changing flags.
+        # Keep the CLI's behavior and leave the endpoint binding unverified.
+        host = ''
+    elif os.environ.get('DOCKER_HOST'):
+        # DOCKER_HOST selects the effective default endpoint, not a named context.
+        host = os.environ['DOCKER_HOST']
+        context_name = 'default'
+        bound = True
+    elif (isinstance(context_name, str) and re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.+-]*', context_name)
+          and (not os.environ.get('DOCKER_CONTEXT') or os.environ['DOCKER_CONTEXT'] == context_name)):
+        command += ['--context', context_name]
+        bound = True
+    endpoint_type = ('unix' if isinstance(host, str) and host.startswith('unix:///') else
+                     'npipe' if isinstance(host, str) and host.startswith('npipe:////./pipe/') else 'remote-or-unknown')
+    template = '{"OperatingSystem":{{json .OperatingSystem}},"Name":{{json .Name}},"RegistryConfig":{{json .RegistryConfig}}}'
+    rc,out,_ = audit.host.call(command+['info','--format',template],timeout=10)
+    try: info = json.loads(out) if not rc else None
+    except ValueError: info = None
+    info = info if isinstance(info, dict) else {}
+    configuration = info.get('RegistryConfig', {})
+    configuration = configuration if isinstance(configuration, dict) else {}
+    registries = configuration.get('IndexConfigs')
     if isinstance(registries,dict):
         count = sum(v.get('Secure') is False for v in registries.values() if isinstance(v,dict))
         names = sorted(name for name, value in registries.items()
                        if isinstance(value, dict) and value.get('Secure') is False and
-                       isinstance(name, str) and len(name) <= 253 and
-                       re.fullmatch(r'(?:[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?|\[[0-9A-Fa-f:]+\])(?::[0-9]{1,5})?', name))
+                       docker_registry.identifier(name))
+        connection = dict(context=context_name if isinstance(context_name, str) else '',
+                          bound=bound, endpoint_type=endpoint_type,
+                          server_os=str(info.get('OperatingSystem') or '')[:200],
+                          server_name='docker-desktop' if info.get('Name') == 'docker-desktop' else '')
         findings.append(finding('registryのTLS設定','configuration','ACTION' if count else 'INFO',
                                 'TLSを安全としない設定のregistry {} 件を検出。CIDR指定や独自BuildKitは別確認。'.format(count),
-                                count=count, insecure_registries=names, redacted_registry_count=count-len(names)))
+                                count=count, insecure_registries=names, redacted_registry_count=count-len(names),
+                                registry_secure_observations={name:value['Secure'] for name,value in registries.items()
+                                    if docker_registry.identifier(name) and isinstance(value,dict) and type(value.get('Secure')) is bool},
+                                registry_entries_incomplete=any(not isinstance(value,dict) or type(value.get('Secure')) is not bool for value in registries.values()),
+                                insecure_registry_cidrs=configuration.get('InsecureRegistryCIDRs', []),
+                                docker_connection=connection))
     else:
         findings.append(finding('registryのTLS設定','configuration','UNKNOWN','registryの設定を取得できませんでした。接続先デーモン・権限を確認してください。'))
     return findings
